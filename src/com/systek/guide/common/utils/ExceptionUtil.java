@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import com.systek.guide.common.MyApplication;
 
 /**
- * ´¦ÀíÏîÄ¿ÖĞËùÓĞµÄÒì³£
+ * å¤„ç†é¡¹ç›®ä¸­æ‰€æœ‰çš„å¼‚å¸¸
  * 
  * @author ZQ
  * 
@@ -14,7 +14,7 @@ import com.systek.guide.common.MyApplication;
 public class ExceptionUtil {
 
 	public static void handleException(Exception e) {
-		// °ÑÒì³£ĞÅÏ¢±ä³É×Ö·û´®£¬·¢¸ø¿ª·¢ÈËÔ±
+		// æŠŠå¼‚å¸¸ä¿¡æ¯å˜æˆå­—ç¬¦ä¸²ï¼Œå‘ç»™å¼€å‘äººå‘˜
 		String str = "";
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(stringWriter);
@@ -22,10 +22,10 @@ public class ExceptionUtil {
 		str = stringWriter.toString();
 		
 		if (MyApplication.isRelease) {
-			// ÁªÍø·¢ËÍ
+			// è”ç½‘å‘é€
 		} else {
-			// ¿ª·¢ÖĞ
-			LogUtil.i("Òì³£ĞÅÏ¢", str);
+			// å¼€å‘ä¸­
+			LogUtil.i("å¼‚å¸¸ä¿¡æ¯", str);
 		}
 
 	}
