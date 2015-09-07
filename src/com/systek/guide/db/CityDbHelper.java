@@ -1,5 +1,6 @@
 package com.systek.guide.db;
 
+import com.systek.guide.common.config.Constants;
 import com.systek.guide.common.utils.ExceptionUtil;
 
 import android.content.ContentValues;
@@ -25,8 +26,7 @@ public class CityDbHelper extends SQLiteOpenHelper{
 
 	//创建table 
 	@Override
-	public void onCreate(SQLiteDatabase db) { 
-		
+	public void onCreate(SQLiteDatabase db) {
 	} 
 	
 	public void createCityDB(SQLiteDatabase db){

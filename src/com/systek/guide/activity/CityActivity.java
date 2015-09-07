@@ -113,7 +113,7 @@ public class CityActivity extends BaseActivity {
 		try {
 			helper=new CityDbHelper(this);
 			/* 判断城市数据库是否存在，存在则查找，不存在联网查询*/
-			if(helper.tabIsExist(Constants.DBCITYNAME)){
+			if(helper.tabIsExist(Constants.DBTableNAME)){
 				Cursor cursor=helper.select();
 				while(cursor.moveToNext()){
 					CityModule  city=new CityModule();
@@ -123,36 +123,49 @@ public class CityActivity extends BaseActivity {
 							.getColumnIndex("alpha")));  
 					cities.add(city);  
 				}
+				// 根据a-z进行排序源数据  
+				if(cities!=null){
+					Collections.sort(cities, pinyinComparator);  
+					adapter = new CityAdapter(this, cities);  
+					cityListView.setAdapter(adapter);  
+				}
+				if(helper!=null){
+					helper.close();
+				}
 			}else{
 				CityBiz cityBiz=new CityBiz(this);
 				cityBiz.execute(Constants.CITYLISTURL);
 				new Thread(){public void run() {
+					SQLiteDatabase db=null;
+					CityDbHelper helper=null;
 					try {
-						CityDbHelper helper=new CityDbHelper(CityActivity.this);
-					SQLiteDatabase db=helper.getWritableDatabase();
-					while(cities==null){}
-					helper.createCityDB(db);
-					for(CityModule city:cities){
-						helper.insert(city.getName(), city.getAlpha());
-					}
+						helper=new CityDbHelper(getApplicationContext());
+						db=helper.getWritableDatabase();
+						while(cities==null){}
+						if(!helper.tabIsExist(Constants.DBTableNAME)){
+							db.execSQL("create table "+Constants.DBTableNAME +"(_id integer primary key autoincrement," 
+									+" name varchar(100)," +" alpha varchar(2))");
+						}
+						for(CityModule city:cities){
+							ContentValues values=new ContentValues();
+							values.put("name", city.getName());
+							values.put("alpha",city.getAlpha());
+							db.insert(Constants.DBTableNAME, null, values);
+						}
+						if(helper!=null){
+							helper.close();
+						}
+						if(db!=null){
+							db.close();
+						}
 					} catch (Exception e) {
 						ExceptionUtil.handleException(e);
 					}
-					
+
 				};}.start();
 			}
 		} catch (Exception e) {
 			ExceptionUtil.handleException(e);
-		}finally{
-			// 根据a-z进行排序源数据  
-			if(cities!=null){
-				Collections.sort(cities, pinyinComparator);  
-				adapter = new CityAdapter(this, cities);  
-				cityListView.setAdapter(adapter);  
-			}
-			if(helper!=null){
-				helper.close();
-			}
 		}
 	}
 
@@ -160,7 +173,7 @@ public class CityActivity extends BaseActivity {
 	 * 为ListView填充数据 
 	 * @param data 
 	 * @return 
-	   
+
 	private List<CityModule> filledData(String [] data){  
 		List<CityModule> mSortList = new ArrayList<CityModule>();  
 
