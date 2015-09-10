@@ -33,7 +33,7 @@
                 android:background="@drawable/btn_locatecity_bg"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="正在定位..."
+                android:text="@string/city_activity_button_string"
                 android:textSize="20sp" />
         </RelativeLayout>
 

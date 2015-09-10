@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <!-- 正在下载更新 -->
+	<TextView 
+	    android:paddingLeft="10dp"
+	    android:text="第一页"
+	    android:id="@+id/tv_download_ing"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:background="@color/lightgray"/>
+	<!-- 正在更新的博物馆ListView -->
+	
+    <ListView       
+        android:layout_below="@id/tv_download_ing"
+        android:id="@+id/lv_download_ing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+    <!-- 下载完成   -->
+	<TextView 
+	    android:paddingLeft="10dp"
+	    android:text="@string/downloaded_text"
+	    android:layout_below="@id/lv_download_ing"
+	    android:id="@+id/tv_download_complete"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:background="@color/lightgray"/>
+	<!-- 已经下载好的博物馆ListView -->
+    <ListView
+        android:layout_below="@id/tv_download_complete"
+        android:id="@+id/lv_download_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+    <!-- 既没有下载好的，又没有正在下载更新的，提示到城市列表中选择下载  -->
+    <TextView 
+        android:visibility="gone"
+        android:id="@+id/tv_download_no_items"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"
+        android:text="@string/download_no_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

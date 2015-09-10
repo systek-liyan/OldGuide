@@ -29,25 +29,19 @@ public class WelcomeActivity extends BaseActivity {
 			
 			@Override
 			public void onAnimationStart(Animation animation) {
-				// TODO Auto-generated method stub
 				
 			}
-			
 			@Override
 			public void onAnimationRepeat(Animation animation) {
-				// TODO Auto-generated method stub
-				
 			}
-			
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				// TODO Auto-generated method stub
 				redirectTo();
 			}
 		});
 	}
 	protected void redirectTo() {
-		startActivity(new Intent(this,CityActivity.class));
+		startActivity(new Intent(getApplicationContext(),CityActivity.class));
 		finish();
 	}
 
