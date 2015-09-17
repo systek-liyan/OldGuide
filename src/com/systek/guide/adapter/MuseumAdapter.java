@@ -81,7 +81,7 @@ public class MuseumAdapter extends BaseAdapter{
 			ImageLoaderUtil.displaySdcardImage(context, filePathName,viewHolder.ivImage);
 		} else {
 			// 服务器上存的imageUrl有域名如http://www.systek.com.cn/1.png
-			imageUrl = Const.INTERNET_IMAGE_PATH+ imageUrl;
+			imageUrl = Const.BASEURL+ imageUrl;
 			ImageLoaderUtil.displayNetworkImage(context, imageUrl, viewHolder.ivImage);
 		}
 		return convertView;

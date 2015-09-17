@@ -46,11 +46,12 @@ public class MyToggleButton extends LinearLayout {
 	public void setCurrentState(int state) {
 		if (mState == state)
 			return;
-		mState = state;
-		if (mState == STATE_ON)
+		else if (state == STATE_ON){
 			btnOn.setChecked(true);
-		else
+		}else if (state == STATE_OFF){
 			btnOff.setChecked(true);
+		}
+		mState = state;
 	}
 
 	public void setStateChangedListener(OnStateChangedListener listener) {
@@ -80,13 +81,13 @@ public class MyToggleButton extends LinearLayout {
 			btnOff.setChecked(true);
 			if(mListener != null){
 				mListener.onSwitchOff();
-	    	}
+			}
 		} else {
 			btnOn.setChecked(true);
 			if(mListener != null){
 				mListener.onSwitchOn();
-	    	}
-			
+			}
+
 		}
 	}
 

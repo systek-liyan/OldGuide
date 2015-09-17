@@ -5,7 +5,7 @@
     <!-- 正在下载更新 -->
 	<TextView 
 	    android:paddingLeft="10dp"
-	    android:text="第二页"
+	    android:text="@string/downloading"
 	    android:id="@+id/tv_download_ing"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"

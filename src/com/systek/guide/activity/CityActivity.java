@@ -19,8 +19,8 @@ import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.view.SideBar;
 import com.systek.guide.common.view.SideBar.OnTouchingLetterChangedListener;
-import com.systek.guide.db.CityDao;
-import com.systek.guide.db.CityDbHelper;
+import com.systek.guide.db.Dao;
+import com.systek.guide.db.DbHelper;
 import com.systek.guide.entity.CityModel;
 
 import android.content.Intent;
@@ -59,14 +59,14 @@ public class CityActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_city);
-			initViews();
-			addListener();
-			initData();
-			initLocation();
-			Collections.sort(cities, pinyinComparator);
-			// 自定义Adapter
-			adapter = new CityAdapter(this, cities);
-			cityListView.setAdapter(adapter);
+		initViews();
+		addListener();
+		initData();
+		//initLocation();
+		Collections.sort(cities, pinyinComparator);
+		// 自定义Adapter
+		adapter = new CityAdapter(this, cities);
+		cityListView.setAdapter(adapter);
 	}
 
 	private void initViews() {
@@ -128,11 +128,11 @@ public class CityActivity extends BaseActivity {
 
 	/* 获取数据 */
 	private void initData() {
-		CityDbHelper helper = new CityDbHelper(this);
-		CityDao dao=new CityDao(helper);
+		DbHelper helper = new DbHelper(this);
+		Dao dao=new Dao(helper);
 		cities = new ArrayList<CityModel>();
-		boolean flag = dao.tabIsExist(CityDbHelper.DBTAblENAME);
-		Cursor cursor =dao.select(CityDbHelper.DBTAblENAME);
+		boolean flag = helper.tabIsExist(DbHelper.DBTAblENAME);
+		Cursor cursor =dao.select(DbHelper.DBTAblENAME);
 		/* 判断城市数据库是否存在，存在则查找，不存在联网查询 */
 		if (flag&&cursor.moveToNext()) {
 			while (cursor.moveToNext()) {
@@ -147,8 +147,8 @@ public class CityActivity extends BaseActivity {
 				helper.close();
 			}
 		} else {
-					CityBiz cityBiz = (CityBiz) BizFactory.getCityBiz(CityActivity.this);
-					cityBiz.execute(Const.CITYLISTURL);
+			CityBiz cityBiz = (CityBiz) BizFactory.getCityBiz(CityActivity.this);
+			cityBiz.execute(Const.CITYLISTURL);
 		}
 	}
 
@@ -225,9 +225,9 @@ public class CityActivity extends BaseActivity {
 		try {
 			mLocationClient = new LocationClient(this);
 			LocationClientOption option = new LocationClientOption();
-			option.setScanSpan(100);
-			option.setLocationNotify(true);// 可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-			option.setOpenGps(true);// 可选，默认false,设置是否使用gps
+			option.setScanSpan(1000);
+			option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
+			option.setOpenGps(true);//可选，默认false,设置是否使用gps
 			option.setIsNeedAddress(true);
 			option.setLocationMode(LocationMode.Hight_Accuracy);
 			option.setCoorType("bd0911");
@@ -263,6 +263,19 @@ public class CityActivity extends BaseActivity {
 			ExceptionUtil.handleException(e);
 		}
 
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		/*if(mLocationClient.isStarted()){
+			mLocationClient.stop();			
+		}*/
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 
 }

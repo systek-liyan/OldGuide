@@ -2,6 +2,7 @@ package com.systek.guide.activity;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.systek.guide.R;
+import com.systek.guide.common.MyApplication;
 import com.systek.guide.common.base.BaseActivity;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.view.DrawerView;
@@ -93,7 +94,7 @@ public class MuseumActivity extends BaseActivity{
 							Toast.LENGTH_SHORT).show();
 					mExitTime = System.currentTimeMillis();
 				} else {
-					finish();
+					MyApplication.exit();
 				}
 			}
 			return true;

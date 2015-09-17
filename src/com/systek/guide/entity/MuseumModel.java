@@ -1,6 +1,7 @@
 package com.systek.guide.entity;
 
 public class MuseumModel implements ModelInterface{
+	private String id;
 	private String museumId;
 	private String name;// 博物馆名称
 	private String address;// 博物馆地址
@@ -12,6 +13,12 @@ public class MuseumModel implements ModelInterface{
 	private String city;
 	private int version;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getMuseumId() {
 		return museumId;
 	}

@@ -33,7 +33,7 @@ public class MyApplication extends Application{
 	}
 
 	/*退出程序 */
-	public void exit() {
+	public static void exit() {
 		for (Activity activity : listActivity) {
 			try {
 				activity.finish();

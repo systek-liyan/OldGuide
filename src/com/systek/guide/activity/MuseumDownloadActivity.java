@@ -18,19 +18,17 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 
 public class MuseumDownloadActivity extends FragmentActivity {
 
 	private ImageView iv_back;
 	private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 	private ViewPager mViewPager;
-	/** 头部标题ToggleButton按钮*/
+	/** 头部标题ToggleButton按钮 */
 	private MyToggleButton tbTitle;
-	private RadioButton btOn;
-	private RadioButton btOff;
 	// 在onCreate()和onSaveInstanceState()之间传递参数值，以记录Activity上一次关闭前的状态
 	private static final String Bundle_key = "state";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +53,7 @@ public class MuseumDownloadActivity extends FragmentActivity {
 				finish();
 			}
 		});
-		
+
 		tbTitle.setStateChangedListener(new OnStateChangedListener() {
 
 			@Override
@@ -75,8 +73,6 @@ public class MuseumDownloadActivity extends FragmentActivity {
 		tbTitle = (MyToggleButton) findViewById(R.id.toggle_btn);
 		iv_back = (ImageView) findViewById(R.id.iv_back);
 		mViewPager = (ViewPager) findViewById(R.id.mViewPager);
-		btOn=(RadioButton)findViewById(R.id.btn_on);
-		btOff=(RadioButton)findViewById(R.id.btn_off);
 
 	}
 
@@ -88,43 +84,40 @@ public class MuseumDownloadActivity extends FragmentActivity {
 		fragments.add(dlFragment);
 		fragments.add(mnFragment);
 
-		DownloadFragmentPagerAdapter mAdapetr = new DownloadFragmentPagerAdapter(this.getSupportFragmentManager(),
-				fragments);
-		mViewPager.setAdapter(mAdapetr);
+		DownloadFragmentPagerAdapter mAdapter = new DownloadFragmentPagerAdapter
+				(this.getSupportFragmentManager(),fragments);
+		mViewPager.setAdapter(mAdapter);
+		
 		mViewPager.setOnPageChangeListener(pageListener);
 	}
 
-	/** 
-	 *  ViewPager切换监听方法
-	 * */
-	public OnPageChangeListener pageListener= new OnPageChangeListener() {
-
+	/**
+	 * ViewPager切换监听方法,当页面改动时，头部标题栏随之改动
+	 */
+	public OnPageChangeListener pageListener = new OnPageChangeListener() {
+		 
 		@Override
-		public void onPageSelected(int arg0) {
+		public void onPageSelected(int position) {
 			
+			if (position == 0) {
+				tbTitle.setCurrentState(MyToggleButton.STATE_ON);
+			} else if(position==1){
+				tbTitle.setCurrentState(MyToggleButton.STATE_OFF);
+			}else{}
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-
 		}
 
 		@Override
 		public void onPageScrollStateChanged(int position) {
-			/*if(position==0){
-				tbTitle.setCurrentState(MyToggleButton.STATE_ON);
-			}
-			else {
-				tbTitle.setCurrentState(MyToggleButton.STATE_OFF);		
-			}			*/
 		}
 	};
 
-
-	//手动设置ViewPager要显示的视图  
-	private void changeView(int desTab)  
-	{  
-		mViewPager.setCurrentItem(desTab,true);  
-	}  
+	// 手动设置ViewPager要显示的视图
+	private void changeView(int desTab) {
+		mViewPager.setCurrentItem(desTab, true);
+	}
 
 }

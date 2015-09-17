@@ -6,7 +6,7 @@ import android.util.Log;
 
 
 /**
- * 日志要统一处理。
+ *  鏃ュ織缁熶竴澶勭悊
  * @author ZQ
  *
  */

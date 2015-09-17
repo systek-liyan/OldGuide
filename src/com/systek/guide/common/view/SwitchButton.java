@@ -71,7 +71,6 @@ public class SwitchButton extends CompoundButton {
 
 	private Context mContext;
 
-	@SuppressWarnings("hiding")
 	private final Rect mTempRect = new Rect();
 
 	private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };

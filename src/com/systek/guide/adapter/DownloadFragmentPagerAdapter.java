@@ -12,11 +12,6 @@ public class DownloadFragmentPagerAdapter extends FragmentStatePagerAdapter {
 	private ArrayList<Fragment> fragments;
 	private FragmentManager fm;
 
-	public DownloadFragmentPagerAdapter(FragmentManager fm) {
-		super(fm);
-		this.fm = fm;
-	}
-
 	public DownloadFragmentPagerAdapter(FragmentManager fm,ArrayList<Fragment> fragments) {
 		super(fm);
 		this.fm = fm;
