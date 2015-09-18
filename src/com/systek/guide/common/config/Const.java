@@ -34,7 +34,8 @@ public class Const {
 	public static final String LOCAL_LYRIC_PATH=SDCARD_ROOT+"/Guide/lyric";
 	
 	/*用于下载后传递数据*/
-	public static final String DOWNLOAD_KEY="download_key";
+	public static final String DOWNLOAD_ASSETS_KEY="download_assets_key";
+	//public static final String DOWNLOAD_MUSEUMID_KEY="download_museumId_key";
 	public static final int MSG_WHAT=1;
 	
 	/*用于下载过程中Message*/
@@ -55,6 +56,8 @@ public class Const {
 	public static final String ACTION_PAUSE="pause";
 	public static final String ACTION_CONTINUE="continue";
 	public static final String ACTION_PROGRESS="progress";
+	public static final String ACTION_DOWNLOAD_JSON="download_json";
+	public static final String ACTION_ASSETS_JSON="assets_json";
 	
 	/*用于记录ExpandableListview中下载item的位置的Message类型*/
 	public static final int EXPANDABLE_MSG_CHILD=33;

@@ -8,9 +8,9 @@ public class BizFactory {
 		
 		return new CityBiz(context);
 	}
-	public static BizInterface getDownloadBiz(){
+	public static BizInterface getDownloadBiz(Context context){
 		
-		return new DownloadBiz();
+		return new DownloadBiz(context);
 	}
 	
 }
