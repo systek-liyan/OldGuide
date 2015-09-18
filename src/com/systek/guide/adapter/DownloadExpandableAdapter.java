@@ -191,11 +191,12 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 				// 如果当前是空,显示pause图案，置状态为正在下载，表示按下执行下载操作
 				if (childViewHodler.tvStateRecord.getText().equals(NONE)) {
 					((ImageView) v).setImageResource(R.drawable.play_btn_pause);
+					childViewHodler.tvState.setText("");
 					childViewHodler.tvStateRecord.setText(DOWNLOADING);
 					
 					new Thread(){
 						public void run() {
-							/*创建下载业务对象冰开始下载*/
+							/*创建下载业务对象并开始下载*/
 							DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz(context);
 							String assetsJson= downloadBiz.getAssetsJSON(id);
 							downloadBiz.downloadAssets(id,assetsJson);
@@ -210,27 +211,18 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 					childViewHodler.tvStateRecord.setText("");
 					childViewHodler.tvStateRecord.setText(DOWNLOADING);
 					/*发送广播请求继续下载*/
-					/*Intent intent= new Intent();
+					Intent intent= new Intent();
 					intent.setAction(Const.ACTION_CONTINUE);
-					intent.putExtra(Const.DOWNLOAD_KEY,Const.ACTION_CONTINUE);
-					context.sendBroadcast(intent);*/
-					new Thread(){
-						public void run() {
-							DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz(context);
-							String assetsJson= downloadBiz.getAssetsJSON(id);
-							downloadBiz.downloadAssets(id,assetsJson);
-							/* 将数据保存至数据库 */
-							downloadBiz.saveAllAssetsList(id);
-						};
-					}.start();
+					intent.putExtra(Const.ACTION_CONTINUE,Const.ACTION_CONTINUE);
+					context.sendBroadcast(intent);
 				}
 				// 如果当前是下载状态，显示pause图案，置状态为暂停，表示按下执行暂停操作
 				else if (childViewHodler.tvStateRecord.getText().equals(DOWNLOADING)) {
 					((ImageView) v).setImageResource(R.drawable.play_btn_pause);					
 					childViewHodler.tvStateRecord.setText("");
 					childViewHodler.tvStateRecord.setText(PAUSE);
-					String str = childViewHodler.tvState.getText().toString();
-					childViewHodler.tvState.setText(str + "--" + "暂停状态");
+					//String str = childViewHodler.tvState.getText().toString();
+					//childViewHodler.tvState.setText("暂停状态");
 					/*发送广播暂停下载*/
 					Intent intent= new Intent();
 					intent.setAction(Const.ACTION_PAUSE);

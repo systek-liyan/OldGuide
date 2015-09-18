@@ -14,7 +14,6 @@ import com.systek.guide.biz.DownloadBiz;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.LogUtil;
-import com.systek.guide.common.utils.Tools;
 
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
@@ -34,8 +33,10 @@ public class DownloadService extends IntentService {
 	long startTime;
 	/* 控制下载的handler集合 */
 	private ArrayList<HttpHandler<File>> httpHandlerList;
-	/*下载状态监听器*/
+	/* 下载状态监听器 */
 	DownloadStateReceiver downloadStateReceiver;
+
+	DownloadBiz downloadBiz;
 
 	public DownloadService() {
 		super("download");
@@ -44,7 +45,7 @@ public class DownloadService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//注册广播
+		// 注册广播
 		downloadStateReceiver = new DownloadStateReceiver();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Const.ACTION_CONTINUE);
@@ -55,7 +56,7 @@ public class DownloadService extends IntentService {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		//取消广播
+		// 取消广播
 		unregisterReceiver(downloadStateReceiver);
 	}
 
@@ -63,13 +64,14 @@ public class DownloadService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		Toast.makeText(this, "已启动下载服务", Toast.LENGTH_SHORT).show();
 		try {
-			String assetsJson=intent.getStringExtra(Const.DOWNLOAD_ASSETS_KEY);
+			String assetsJson = intent.getStringExtra(Const.DOWNLOAD_ASSETS_KEY);
 			/* 创建下载业务对象，并开始下载 */
-			DownloadBiz downloadBiz=(DownloadBiz) BizFactory.getDownloadBiz(getApplicationContext());
-			assetsList=downloadBiz.parseAssetsJson(assetsJson);
-			downloadAssets(assetsList);
-			
-			/*当下载未完成时，每秒发送一条广播以更新进度条*/
+			downloadBiz = (DownloadBiz) BizFactory.getDownloadBiz(getApplicationContext());
+			assetsList = downloadBiz.parseAssetsJson(assetsJson);
+			count = assetsList.size();
+			downloadAssets(assetsList,0,assetsList.size());
+
+			/* 当下载未完成时，每秒发送一条广播以更新进度条 */
 			int progress;
 			while (!isDownloadOver) {
 				progress = (assetsList.size() + 1 - count) * 100 / assetsList.size();
@@ -79,36 +81,27 @@ public class DownloadService extends IntentService {
 				sendBroadcast(in);
 				Thread.sleep(1000);
 			}
-			
+
 		} catch (Exception e) {
 			ExceptionUtil.handleException(e);
 			Toast.makeText(getApplicationContext(), "数据获取异常", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
-	/*下载assets中数据*/
-	public void downloadAssets(Vector<String> assetsList) {
-		// mProgressListener.onStart();
-		int start1 = 0;
-		int end1 = assetsList.size() / 2;
-		int start2 = assetsList.size() / 2;
-		int end2 = assetsList.size();
-		count = assetsList.size();
+
+	/* 下载assets中数据 */
+	public void downloadAssets(Vector<String> assetsList,int start,int end) {
+
 		startTime = System.currentTimeMillis();
 		httpHandlerList = new ArrayList<HttpHandler<File>>();
 		LogUtil.i("downloadAssets开始执行", "------当前时间为" + startTime + "文件个数" + count);
-		
-		/*检查文件夹是否创建，否则创建*/
-		Tools.createOrCheckFolder(Const.LOCAL_AUDIO_PATH);
-		Tools.createOrCheckFolder(Const.LOCAL_IMAGE_PATH);
-		Tools.createOrCheckFolder(Const.LOCAL_LYRIC_PATH);
-		
+
 		HttpUtils http = new HttpUtils();
+		http.configRequestThreadPoolSize(downloadBiz.getMaxDownloadThread());
 		String str = "";
 		String savePath = "";
 		
-		/*分两段去下载*/
-		for (int i = start1; i < end1; i++) {
+		/* 遍历集合并下载 */
+		for (int i = start; i < end; i++) {
 			str = assetsList.get(i);
 			if (str.endsWith(".jpg")) {
 				savePath = Const.LOCAL_IMAGE_PATH + str.substring(str.lastIndexOf("/"));
@@ -125,25 +118,6 @@ public class DownloadService extends IntentService {
 			} else {
 				LogUtil.i("文件后缀异常", "------------------------------------------");
 				count--;
-			}
-		}
-		for (int i = start2; i < end2; i++) {
-			str = assetsList.get(i);
-			if (str.endsWith(".jpg")) {
-				savePath = Const.LOCAL_IMAGE_PATH + str.substring(str.lastIndexOf("/"));
-				final String url = Const.BASEURL + assetsList.get(i);
-				download(http, savePath, url);
-			} else if (str.endsWith(".lrc")) {
-				savePath = Const.LOCAL_LYRIC_PATH + str.substring(str.lastIndexOf("/"));
-				final String url = Const.BASEURL + assetsList.get(i);
-				download(http, savePath, url);
-			} else if (str.endsWith(".mp3") || str.endsWith(".wav")) {
-				savePath = Const.LOCAL_AUDIO_PATH + str.substring(str.lastIndexOf("/"));
-				final String url = Const.BASEURL + assetsList.get(i);
-				download(http, savePath, url);
-			} else {
-				count--;
-				LogUtil.i("文件后缀异常", "------------------------------------------");
 			}
 		}
 	}
@@ -190,23 +164,22 @@ public class DownloadService extends IntentService {
 		httpHandlerList.add(httpHandler);
 	}
 
-	
-	/*广播接收器，用于接收用户操控下载状态*/
+	/* 广播接收器，用于接收用户操控下载状态 */
 	private class DownloadStateReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
 			String action = intent.getAction();
-			/*继续*/
+			/* 继续 */
 			if (action.equals(Const.ACTION_CONTINUE)) {
-				for (int i = 0; i < httpHandlerList.size(); i++) {
-					httpHandlerList.get(i).resume();
-				}
-				/*暂停*/
+				downloadAssets(assetsList,assetsList.size()-count,assetsList.size());
+				/* 暂停 */
 			} else if (action.equals(Const.ACTION_PAUSE)) {
 				for (int i = 0; i < httpHandlerList.size(); i++) {
-					httpHandlerList.get(i).cancel();
+					if (httpHandlerList.get(i) != null && !httpHandlerList.get(i).isCancelled()) {
+						httpHandlerList.get(i).cancel();
+					}
 				}
 			}
 		}

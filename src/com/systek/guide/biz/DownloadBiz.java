@@ -40,6 +40,17 @@ public class DownloadBiz implements BizInterface {
 	private ArrayList<ExhibitModel> exhibitList;
 	private ArrayList<MapModel> mapList;
 	private ArrayList<MuseumModel> museumList;
+	
+	/*启动下载的线程数*/
+	private int  maxDownloadThread = 3;
+	
+	public int getMaxDownloadThread() {
+		return maxDownloadThread;
+	}
+
+	public void setMaxDownloadThread(int maxDownloadThread) {
+		this.maxDownloadThread = maxDownloadThread;
+	}
 
 	public DownloadBiz(Context context) {
 		this.context = context;
