@@ -1,11 +1,11 @@
 package com.systek.guide.db;
 
-import com.systek.guide.entity.ModelInterface;
+import com.systek.guide.entity.BeanInterface;
 
 import android.database.Cursor;
 
 public interface InterfaceDao {
-	boolean insert(ModelInterface model);
+	boolean insert(BeanInterface model);
 	void remove();
 	void update();
 	void query();

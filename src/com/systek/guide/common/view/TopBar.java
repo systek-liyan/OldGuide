@@ -1,7 +1,7 @@
 package com.systek.guide.common.view;
 
 import com.systek.guide.R;
-import com.systek.guide.activity.MainActivity;
+import com.systek.guide.activity.DescribeActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -124,7 +124,7 @@ public class TopBar extends LinearLayout{
 					//HomeActivity.getMenu().toggle();
 					break;
 				case R.id.frag_header_iv_search:
-					Intent intent = new Intent(mContext,MainActivity.class);
+					Intent intent = new Intent(mContext,DescribeActivity.class);
 					mContext.startActivity(intent);
 					break;
 			}

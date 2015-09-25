@@ -14,13 +14,13 @@ import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.MyHttpUtils;
 import com.systek.guide.db.Dao;
 import com.systek.guide.db.DbHelper;
-import com.systek.guide.entity.CityModel;
+import com.systek.guide.entity.CityBean;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
-public class CityBiz extends AsyncTask<String, Integer, List<CityModel>>implements BizInterface {
+public class CityBiz extends AsyncTask<String, Integer, List<CityBean>>implements InterfaceCityBiz {
 
 	Context context;
 
@@ -29,7 +29,7 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityModel>>implemen
 	}
 
 	@Override
-	protected List<CityModel> doInBackground(String... params) {
+	protected List<CityBean> doInBackground(String... params) {
 		String url = params[0];
 		try {
 			HttpEntity entity = MyHttpUtils.get(MyHttpUtils.GET, url, null);
@@ -44,7 +44,7 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityModel>>implemen
 			 * List<CityModule> musics=parseJSON(ary); return musics; }
 			 */
 			JSONArray ary = new JSONArray(json);
-			List<CityModel> cities = parseJSON(ary);
+			List<CityBean> cities = parseJSON(ary);
 			return cities;
 		} catch (Exception e) {
 			ExceptionUtil.handleException(e);
@@ -53,7 +53,7 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityModel>>implemen
 	}
 
 	@Override
-	protected void onPostExecute(List<CityModel> result) {
+	protected void onPostExecute(List<CityBean> result) {
 		DbHelper mhelper = null;
 		SQLiteDatabase db = null;
 		Dao cityDao = null;
@@ -67,7 +67,7 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityModel>>implemen
 			if (!mhelper.tabIsExist(DbHelper.DBTAblENAME)) {
 				mhelper.onCreate(db);
 			}
-			for (CityModel city : result) {
+			for (CityBean city : result) {
 				cityDao.insert(city);
 			}
 		} catch (Exception e) {
@@ -82,11 +82,11 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityModel>>implemen
 		}
 	}
 
-	private List<CityModel> parseJSON(JSONArray ary) throws JSONException {
-		List<CityModel> list = new ArrayList<CityModel>();
+	private List<CityBean> parseJSON(JSONArray ary) throws JSONException {
+		List<CityBean> list = new ArrayList<CityBean>();
 		for (int i = 0; i < ary.length(); i++) {
 			JSONObject obj = ary.getJSONObject(i);
-			CityModel c = new CityModel();
+			CityBean c = new CityBean();
 			c.setAlpha(obj.getString("alpha"));
 			c.setName(obj.getString("name"));
 			list.add(c);

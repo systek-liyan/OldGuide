@@ -96,7 +96,7 @@
     </style>
 
     <style name="ExhibitContentTextAppearance">
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/color_white</item>
         <item name="android:textSize">14sp</item>
     </style>
 

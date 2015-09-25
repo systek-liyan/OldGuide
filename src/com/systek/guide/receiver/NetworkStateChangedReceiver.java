@@ -19,7 +19,7 @@ public class NetworkStateChangedReceiver extends BroadcastReceiver{
 		NetworkInfo activeNetworkInfo=manager.getActiveNetworkInfo();
 		if (activeNetworkInfo==null)
 		{
-			MyApplication.currentNetworkType=Const.TYPE_NONE;
+			MyApplication.currentNetworkType=Const.INTERNET_TYPE_NONE;
 			LogUtil.i("NetworkStateChanged", "关闭");
 		}else
 		{
@@ -28,7 +28,7 @@ public class NetworkStateChangedReceiver extends BroadcastReceiver{
 			if (wifiNetworkInfo!=null && wifiNetworkInfo.isConnected())
 			{
 				LogUtil.i("NetworkStateChanged", "打开的是wifi");
-				MyApplication.currentNetworkType=Const.TYPE_WIFI;
+				MyApplication.currentNetworkType=Const.INTERNET_TYPE_WIFI;
 
 			}
 
@@ -37,7 +37,7 @@ public class NetworkStateChangedReceiver extends BroadcastReceiver{
 					&& mobileNetworkInfo.isConnected())
 			{
 				LogUtil.i("NetworkStateChanged", "打开的是mobile");
-				MyApplication.currentNetworkType = Const.TYPE_MOBILE;
+				MyApplication.currentNetworkType = Const.INTERNET_TYPE_MOBILE;
 
 			}
 		}

@@ -9,7 +9,7 @@ import java.util.Date;
   * 一个DownloadBean对象，表示对应一个下载任务 ，即某一个博物馆的离线数据包（数据和文件（资源））
   * 
   */
-public class DownloadInfoModel implements ModelInterface,Serializable{
+public class DownloadInfoBean implements BeanInterface,Serializable{
 
 	/**
 	 * 序列化默认版本ID
@@ -44,7 +44,7 @@ public class DownloadInfoModel implements ModelInterface,Serializable{
 		return isCompleted;
 	}
 	
-	public DownloadInfoModel() {
+	public DownloadInfoBean() {
 		super();
 	}
 

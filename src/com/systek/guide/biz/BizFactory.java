@@ -4,11 +4,11 @@ import android.content.Context;
 
 public class BizFactory {
 	
-	public static BizInterface getCityBiz( Context context){
+	public static InterfaceCityBiz getCityBiz( Context context){
 		
 		return new CityBiz(context);
 	}
-	public static BizInterface getDownloadBiz(Context context){
+	public static InterfaceDownloadManageBiz getDownloadBiz(Context context){
 		
 		return new DownloadBiz(context);
 	}

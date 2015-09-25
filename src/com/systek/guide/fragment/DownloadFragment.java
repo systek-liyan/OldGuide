@@ -11,14 +11,13 @@ import com.systek.guide.biz.DownloadBiz;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.LogUtil;
-import com.systek.guide.entity.DownloadTargetModels;
+import com.systek.guide.entity.DownloadAreaBeans;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,7 +29,7 @@ public class DownloadFragment extends Fragment {
 
 	private Activity activity;
 	private ExpandableListView mListView;
-	private ArrayList<DownloadTargetModels> list;
+	private ArrayList<DownloadAreaBeans> list;
 	private DownloadExpandableAdapter mAdapter;
 	private ChildViewHolder childViewHolder;
 	private DownloadBiz downloadBiz;
@@ -69,7 +68,6 @@ public class DownloadFragment extends Fragment {
 		super.onAttach(activity);
 		downloadBiz = (DownloadBiz) BizFactory.getDownloadBiz(activity);
 		downloadBiz.getJsonForDownloadMenu();
-		LogUtil.i("当前状态", "onAttach");
 	}
 
 	@Override
@@ -111,19 +109,6 @@ public class DownloadFragment extends Fragment {
 		LogUtil.i("当前状态", "onDetach");
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated to
-	 * the activity and potentially other fragments contained in that activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		public void onFragmentInteraction(Uri uri);
-	}
-	
 	
 	/**用于接收下载中需要的数据的广播接收器*/
 	class DownloadBrocastReceiver extends BroadcastReceiver {
@@ -135,7 +120,7 @@ public class DownloadFragment extends Fragment {
 			if (intent.getAction().equals(Const.ACTION_DOWNLOAD_JSON)) {
 				menuJson = intent.getStringExtra(Const.ACTION_DOWNLOAD_JSON);
 				try {
-					list = (ArrayList<DownloadTargetModels>) downloadBiz.parseJsonForDownloadMenu(menuJson);
+					list = (ArrayList<DownloadAreaBeans>) downloadBiz.parseJsonForDownloadMenu(menuJson);
 					mAdapter.updateData(list);
 				} catch (Exception e) {
 					ExceptionUtil.handleException(e);

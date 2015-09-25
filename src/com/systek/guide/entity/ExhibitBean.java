@@ -1,6 +1,6 @@
 package com.systek.guide.entity;
 
-public class ExhibitModel implements ModelInterface{
+public class ExhibitBean implements BeanInterface{
 
 	private String id;
 	private String name;

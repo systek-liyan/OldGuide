@@ -7,6 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_welcome">MyMuseum</string>
     <string name="title_activity_city">城市选择</string>
+    <string name="title_activity_Describe">随行导游</string>
     <string name="city_activity_button_string">正在定位&#8230;</string>
 
     <!-- 侧滑菜单 -->
@@ -48,6 +49,10 @@
     <string name="tab_main_two">随行导游</string>
     <string name="tab_main_three">专题导游</string>
     <string name="tab_main_four">地图</string>
+    
+    <!-- 主页界面 -->
+     <string name="exhibit_boutique">精品</string>
+    
     <!-- 搜索 -->
     <string name="title_activity_search">搜索</string>
     <string name="search_hint">请输入搜索内容</string>

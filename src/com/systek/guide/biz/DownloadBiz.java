@@ -1,5 +1,6 @@
 package com.systek.guide.biz;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -8,41 +9,58 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.LogUtil;
-import com.systek.guide.entity.BeaconModel;
-import com.systek.guide.entity.DownloadInfoModel;
-import com.systek.guide.entity.DownloadTargetModels;
-import com.systek.guide.entity.ExhibitModel;
-import com.systek.guide.entity.LabelModel;
-import com.systek.guide.entity.MapModel;
-import com.systek.guide.entity.MuseumModel;
+import com.systek.guide.entity.DownloadInfoBean;
+import com.systek.guide.entity.DownloadAreaBeans;
 import com.systek.guide.service.DownloadService;
 
 import android.content.Context;
 import android.content.Intent;
 
-public class DownloadBiz implements BizInterface {
+public class DownloadBiz implements InterfaceDownloadManageBiz {
 
 	Context context;
-	/**详细信息资源集合 */
-	private ArrayList<BeaconModel> beaconList;
-	private ArrayList<LabelModel> labelList;
-	private ArrayList<ExhibitModel> exhibitList;
-	private ArrayList<MapModel> mapList;
-	private ArrayList<MuseumModel> museumList;
+	/* 控制下载的handler集合 */
+	public ArrayList<HttpHandler<File>> httpHandlerList;
+
+	public  int count;
+	/* 下载开始时间 */
+	long startTime;
+	private String assetsJson;
+
+	/* 启动下载的线程数 */
+	private int maxDownloadThread = 3;
 	
-	/*启动下载的线程数*/
-	private int  maxDownloadThread = 3;
+	public DownloadBiz(Context context) {
+		this.context = context;
+	}
+
+	@Override
+	public void download(final String museumId) {
+		
+		new Thread(){
+			public void run() {
+				/* 获取所资源地址 */
+				assetsJson = getAssetsJSON(museumId);
+				/* 下载资源 */
+				downloadAssets(assetsJson,museumId);
+			};
+		}.start();
+	}
+
+	@Override
+	public void delete(String museumId) {
+		// TODO 删除操作，待实现
+		
+	}
 	
 	public int getMaxDownloadThread() {
 		return maxDownloadThread;
@@ -52,14 +70,9 @@ public class DownloadBiz implements BizInterface {
 		this.maxDownloadThread = maxDownloadThread;
 	}
 
-	public DownloadBiz(Context context) {
-		this.context = context;
-	}
 
-	private String assetsJson;
-	
-	/**获得assets资源json*/
-	public String getAssetsJSON(String id) {
+	/** 获得assets资源json */
+	private String getAssetsJSON(String id) {
 
 		LogUtil.i("getAssetsJSO开始执行", "------------------------");
 		HttpUtils http = new HttpUtils();
@@ -78,74 +91,21 @@ public class DownloadBiz implements BizInterface {
 
 			}
 		});
-		while (assetsJson == null) {}
+		while (assetsJson == null) {
+		}
 		return assetsJson;
 	}
-	
-	/**下载assets的方法，启动下载服务*/
-	public void downloadAssets(String museumId,String assetsJson2) {
+
+	/** 下载assets的方法，启动下载服务 */
+	private void downloadAssets(String assetsJson2,String id) {
 		Intent intent = new Intent(context, DownloadService.class);
 		intent.putExtra(Const.DOWNLOAD_ASSETS_KEY, assetsJson2);
+		intent.putExtra(Const.DOWNLOAD_MUSEUMID_KEY, id);
 		context.startService(intent);
-		
-		getJsonforDetailMuseum(museumId);
-		/* 将数据保存至数据库 */
-		saveAllAssetsList(museumId);
-	}
-	
-	/**保存所有详细信息至数据库*/
-	public void saveAllAssetsList(String id) {
-		while(!DownloadService.isDownloadOver){}
-		
-		DbUtils db = DbUtils.create(context);
-		for (int i = 0; i < beaconList.size(); i++) {
-			try {
-				db.save(beaconList.get(i));
-			} catch (DbException e) {
-				ExceptionUtil.handleException(e);
-			}
-		}
-		for (int i = 0; i < labelList.size(); i++) {
-			try {
-				db.save(labelList.get(i));
-			} catch (DbException e) {
-				ExceptionUtil.handleException(e);
-			}
-		}
-		for (int i = 0; i < exhibitList.size(); i++) {
-			try {
-				db.save(exhibitList.get(i));
-			} catch (DbException e) {
-				ExceptionUtil.handleException(e);
-			}
-		}
-		for (int i = 0; i < mapList.size(); i++) {
-			try {
-				db.save(mapList.get(i));
-			} catch (DbException e) {
-				ExceptionUtil.handleException(e);
-			}
-		}
-		for (int i = 0; i < museumList.size(); i++) {
-			try {
-				db.save(museumList.get(i));
-			} catch (DbException e) {
-				ExceptionUtil.handleException(e);
-			}
-		}
-
-		if (db != null) {
-			db.close();
-		}
-		LogUtil.i("json已保存至数据库", "-------------------------------");
-		Intent in = new Intent();
-		in.setAction(Const.ACTION_PROGRESS);
-		in.putExtra(Const.ACTION_PROGRESS, 100);// currentSize*100/totalSize
-		context.sendBroadcast(in);
-
 	}
 
-	/**解析assets资源json */
+
+	/** 解析assets资源json */
 	public Vector<String> parseAssetsJson(String assetsJson2) {
 		JSONObject obj;
 		Vector<String> list = null;
@@ -162,8 +122,8 @@ public class DownloadBiz implements BizInterface {
 		}
 		return list;
 	}
-	
-	/**获得可下载城市与博物馆的json数据*/
+
+	/** 获得可下载城市与博物馆的json数据 */
 	public void getJsonForDownloadMenu() {
 		LogUtil.i("当前状态", "getJsonForDownloadMenu");
 
@@ -189,24 +149,23 @@ public class DownloadBiz implements BizInterface {
 			}
 		});
 	}
-	
-	
-	/**解析可下载城市与博物馆的json数据*/
-	public ArrayList<DownloadTargetModels> parseJsonForDownloadMenu(String menuJson) throws JSONException {
+
+	/** 解析可下载城市与博物馆的json数据 */
+	public ArrayList<DownloadAreaBeans> parseJsonForDownloadMenu(String menuJson) throws JSONException {
 
 		JSONArray ary = new JSONArray(menuJson);
-		List<DownloadTargetModels> list = new ArrayList<DownloadTargetModels>();
+		List<DownloadAreaBeans> list = new ArrayList<DownloadAreaBeans>();
 
 		for (int i = 0; i < ary.length(); i++) {
 			JSONObject obj = ary.getJSONObject(i);
-			DownloadTargetModels models = new DownloadTargetModels();
+			DownloadAreaBeans models = new DownloadAreaBeans();
 			models.setCity(obj.getString("city"));
 			JSONArray array = new JSONArray(obj.getString("museumList"));
-			ArrayList<DownloadInfoModel> modelList = new ArrayList<DownloadInfoModel>();
-			
+			ArrayList<DownloadInfoBean> modelList = new ArrayList<DownloadInfoBean>();
+
 			for (int j = 0; j < array.length(); j++) {
 				JSONObject obj1 = array.getJSONObject(j);
-				DownloadInfoModel model = new DownloadInfoModel();
+				DownloadInfoBean model = new DownloadInfoBean();
 				model.setMuseumId(obj1.getString("museumId"));
 				model.setName(obj1.getString("name"));
 				model.setTotal(obj1.getInt("size"));
@@ -216,93 +175,86 @@ public class DownloadBiz implements BizInterface {
 			models.setList(modelList);
 			list.add(models);
 		}
-		return (ArrayList<DownloadTargetModels>) list;
+		return (ArrayList<DownloadAreaBeans>) list;
 	}
-	
-	/**获取博物馆所有展品的详细信息的json*/
-	public void getJsonforDetailMuseum(String museumId) {
+
+
+	/* 下载assets中数据 */
+	public void downloadAssets(Vector<String> assetsList, int start, int end,String id) {
+
+		startTime = System.currentTimeMillis();
+		httpHandlerList = new ArrayList<HttpHandler<File>>();
+		LogUtil.i("downloadAssets开始执行", "------当前时间为" + startTime + "文件个数" + count);
+		
 		HttpUtils http = new HttpUtils();
-		http.send(HttpRequest.HttpMethod.GET, Const.BEACON_URL + museumId, new RequestCallBack<String>() {
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				try {
-					beaconList = (ArrayList<BeaconModel>) JSON.parseArray(responseInfo.result, BeaconModel.class);
-				} catch (Exception e) {
-					ExceptionUtil.handleException(e);
-				}
+		http.configRequestThreadPoolSize(getMaxDownloadThread());
+		String str = "";
+		String savePath = "";
+		/* 遍历集合并下载 */
+		for (int i = start; i < end; i++) {
+			str = assetsList.get(i);
+			if (str.endsWith(".jpg")||str.endsWith(".png")) {
+				savePath = Const.LOCAL_ASSETS_PATH +id+"/"+Const.LOCAL_FILE_TYPE_IMAGE+ str.substring(str.lastIndexOf("/"));
+				final String url = Const.BASEURL + assetsList.get(i);
+				downloadFile(http, savePath, url);
+			} else if (str.endsWith(".lrc")) {
+				savePath = Const.LOCAL_ASSETS_PATH+id+"/" +Const.LOCAL_FILE_TYPE_LYRIC+ str.substring(str.lastIndexOf("/"));
+				final String url = Const.BASEURL + assetsList.get(i);
+				downloadFile(http, savePath, url);
+			} else if (str.endsWith(".mp3") || str.endsWith(".wav")) {
+				savePath = Const.LOCAL_ASSETS_PATH+id+"/" +Const.LOCAL_FILE_TYPE_AUDIO+ str.substring(str.lastIndexOf("/"));
+				final String url = Const.BASEURL + assetsList.get(i);
+				downloadFile(http, savePath, url);
+			} else {
+				LogUtil.i("文件后缀异常", "------------------------------------------");
+				count--;
 			}
-
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				LogUtil.i("下载JSON-BEACON_URL-获取失败" + error.toString(), msg);
-			}
-		});
-		http.send(HttpRequest.HttpMethod.GET, Const.LABELS_URL + museumId, new RequestCallBack<String>() {
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				try {
-					labelList = (ArrayList<LabelModel>) JSON.parseArray(responseInfo.result, LabelModel.class);
-				} catch (Exception e) {
-					ExceptionUtil.handleException(e);
-				}
-			}
-
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				LogUtil.i("下载JSON-LABELS_URL-获取失败" + error.toString(), msg);
-			}
-		});
-		http.send(HttpRequest.HttpMethod.GET, Const.EXHIBIT_URL + museumId, new RequestCallBack<String>() {
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				try {
-					exhibitList = (ArrayList<ExhibitModel>) JSON.parseArray(responseInfo.result, ExhibitModel.class);
-				} catch (Exception e) {
-					ExceptionUtil.handleException(e);
-				}
-			}
-
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				LogUtil.i("下载JSON-EXHIBIT_URL-获取失败" + error.toString(), msg);
-			}
-		});
-		http.send(HttpRequest.HttpMethod.GET, Const.MUSEUM_MAP_URL + museumId, new RequestCallBack<String>() {
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				try {
-					mapList = (ArrayList<MapModel>) JSON.parseArray(responseInfo.result, MapModel.class);
-				} catch (Exception e) {
-					ExceptionUtil.handleException(e);
-				}
-
-			}
-
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				LogUtil.i("下载JSON-MUSEUM_MAP_URL-获取失败" + error.toString(), msg);
-			}
-		});
-		http.send(HttpRequest.HttpMethod.GET, Const.MUSEUMS_URL + museumId, new RequestCallBack<String>() {
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				try {
-					museumList = (ArrayList<MuseumModel>) JSON.parseArray(responseInfo.result, MuseumModel.class);
-				} catch (Exception e) {
-					ExceptionUtil.handleException(e);
-				}
-			}
-
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				LogUtil.i("下载JSON-MUSEUMS_URL-获取失败" + error.toString(), msg);
-			}
-		});
+		}
 	}
+
+	private void downloadFile(HttpUtils http, String savePath, final String url) {
+
+		HttpHandler<File> httpHandler = http.download(url, savePath, true, true, new RequestCallBack<File>() {
+
+			@Override
+			public void onSuccess(ResponseInfo<File> responseInfo) {
+				count--;
+				if (url.endsWith(".jpg")) {
+					LogUtil.i("jpg文件下载成功", url.substring(url.lastIndexOf("/") + 1) + "剩余个数" + count);
+				}else if (url.endsWith(".png")) {
+					LogUtil.i("png文件下载成功", url.substring(url.lastIndexOf("/") + 1) + "剩余个数" + count);
+				}else if (url.endsWith(".lrc")) {
+					LogUtil.i("lrc文件下载成功", url.substring(url.lastIndexOf("/") + 1) + "剩余个数" + count);
+				} else if (url.endsWith(".mp3")) {
+					LogUtil.i("mp3文件下载成功", url.substring(url.lastIndexOf("/") + 1) + "剩余个数" + count);
+				} else if (url.endsWith(".wav")) {
+					LogUtil.i("wav文件下载成功", url.substring(url.lastIndexOf("/") + 1) + "剩余个数" + count);
+				}
+				if (count <= 0) {
+					long cost = System.currentTimeMillis() - startTime;
+					LogUtil.i("下载执行完毕", "用时----------------" + cost / 1000 + "秒");
+					DownloadService.isDownloadOver = true;
+					Intent in = new Intent();
+					in.setAction(Const.ACTION_PROGRESS);
+					in.putExtra(Const.ACTION_PROGRESS, 100);// currentSize*100/totalSize
+					context.sendBroadcast(in);
+				}
+			}
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				LogUtil.i("文件下载失败" + error.toString(), msg);
+			}
+
+			@Override
+			public void onLoading(long total, long current, boolean isUploading) {
+				super.onLoading(total, current, isUploading);
+				return;
+			}
+
+		});
+		httpHandlerList.add(httpHandler);
+	}
+
 
 }

@@ -3,7 +3,7 @@ package com.systek.guide.adapter;
 import java.util.List;
 
 import com.systek.guide.R;
-import com.systek.guide.entity.CityModel;
+import com.systek.guide.entity.CityBean;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,12 +15,12 @@ import android.widget.TextView;
 
 public class CityAdapter extends BaseAdapter implements SectionIndexer{
 	
-	private List<CityModel> cityList;
+	private List<CityBean> cityList;
 	private Context context;
 	private LayoutInflater inflater;
 	
 	
-	public CityAdapter(Context context,List<CityModel> cityList) {
+	public CityAdapter(Context context,List<CityBean> cityList) {
 		super();
 		this.cityList = cityList;
 		this.context = context;
@@ -31,7 +31,7 @@ public class CityAdapter extends BaseAdapter implements SectionIndexer{
      * 当ListView数据发生变化时,调用此方法来更新ListView 
      * @param list 
      */  
-    public void updateListView(List<CityModel> list){  
+    public void updateListView(List<CityBean> list){  
         this.cityList = list;  
         notifyDataSetChanged(); 
     }
@@ -54,7 +54,7 @@ public class CityAdapter extends BaseAdapter implements SectionIndexer{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		final CityModel city  = cityList.get(position); 
+		final CityBean city  = cityList.get(position); 
 		ViewHolder viewHolder=null;
 		if(convertView==null){
 			convertView=inflater.inflate(R.layout.item_city, null);

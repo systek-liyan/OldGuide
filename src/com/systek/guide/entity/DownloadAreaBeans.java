@@ -3,7 +3,7 @@ package com.systek.guide.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class DownloadTargetModels implements ModelInterface,Serializable {
+public class DownloadAreaBeans implements BeanInterface,Serializable {
 	
 	/**
 	 * 序列化默认版本ID
@@ -15,13 +15,13 @@ public class DownloadTargetModels implements ModelInterface,Serializable {
 	/** 外层(组,城市)*/
 	String city; 
 	/** 内层(子层,博物馆列表)*/
-	List<DownloadInfoModel> list;
+	List<DownloadInfoBean> list;
 	
-	public DownloadTargetModels() {
+	public DownloadAreaBeans() {
 		super();
 	}
 
-	public DownloadTargetModels(String city, List<DownloadInfoModel> list) {
+	public DownloadAreaBeans(String city, List<DownloadInfoBean> list) {
 		super();
 		this.city = city;
 		this.list = list;
@@ -46,11 +46,11 @@ public class DownloadTargetModels implements ModelInterface,Serializable {
 		this.city = city;
 	}
 
-	public List<DownloadInfoModel> getList() {
+	public List<DownloadInfoBean> getList() {
 		return list;
 	}
 
-	public void setList(List<DownloadInfoModel> list) {
+	public void setList(List<DownloadInfoBean> list) {
 		this.list = list;
 	}
 

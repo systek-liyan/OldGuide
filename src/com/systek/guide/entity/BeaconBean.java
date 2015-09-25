@@ -1,6 +1,6 @@
 package com.systek.guide.entity;
 
-public class BeaconModel implements ModelInterface{
+public class BeaconBean implements BeanInterface{
 
 	private String id;
 	private String uuid;

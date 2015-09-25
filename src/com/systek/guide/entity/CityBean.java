@@ -1,17 +1,17 @@
 package com.systek.guide.entity;
 
-public class CityModel implements ModelInterface{
+public class CityBean implements BeanInterface{
 	
 	private String name;//城市名称
 	private String alpha;//城市名称首字母
 	
 	
 	
-	public CityModel() {
+	public CityBean() {
 		super();
 	}
 
-	public CityModel(String name, String alpha) {
+	public CityBean(String name, String alpha) {
 		super();
 		this.name = name;
 		this.alpha = alpha;

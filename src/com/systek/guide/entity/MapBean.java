@@ -1,6 +1,6 @@
 package com.systek.guide.entity;
 
-public class MapModel implements ModelInterface{
+public class MapBean implements BeanInterface{
 
 	private String id;
 	private String museumId;

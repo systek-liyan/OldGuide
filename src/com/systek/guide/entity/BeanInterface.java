@@ -1,5 +1,5 @@
 package com.systek.guide.entity;
 
-public interface ModelInterface {
+public interface BeanInterface {
 	
 }

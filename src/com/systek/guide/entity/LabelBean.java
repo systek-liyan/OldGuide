@@ -1,7 +1,7 @@
 package com.systek.guide.entity;
 
 
-public class LabelModel implements ModelInterface{
+public class LabelBean implements BeanInterface{
 
 	private String id;
 	private String museumId;

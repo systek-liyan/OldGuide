@@ -21,21 +21,23 @@ public class Const {
 	public static final String ASSETS_URL =BASEURL + "/api/assetsService/assetsList?museumId=";
 	
 	/*网络状态*/
-	public static final int TYPE_WIFI=1;
-	public static final int TYPE_MOBILE=2;
-	public static final int TYPE_NONE=3;
+	public static final int INTERNET_TYPE_WIFI=1;
+	public static final int INTERNET_TYPE_MOBILE=2;
+	public static final int INTERNET_TYPE_NONE=3;
 	/*用于MuseumActivity界面*/
 	public static final String CITY_MUSEUM="city";
 	/*存储至本地sdcard位置*/
 	public static final String SDCARD_ROOT=Environment.getExternalStorageDirectory().getAbsolutePath();
 	/*sdcard存储图片的位置*/
-	public static final String LOCAL_IMAGE_PATH=SDCARD_ROOT+"/Guide/image";
-	public static final String LOCAL_AUDIO_PATH=SDCARD_ROOT+"/Guide/audio";
-	public static final String LOCAL_LYRIC_PATH=SDCARD_ROOT+"/Guide/lyric";
+	public static final String LOCAL_ASSETS_PATH=SDCARD_ROOT+"/Guide/";
+	public static final String LOCAL_FILE_TYPE_IMAGE="image";
+	public static final String LOCAL_FILE_TYPE_AUDIO="audio";
+	public static final String LOCAL_FILE_TYPE_LYRIC="lyric";
+	
 	
 	/*用于下载后传递数据*/
 	public static final String DOWNLOAD_ASSETS_KEY="download_assets_key";
-	//public static final String DOWNLOAD_MUSEUMID_KEY="download_museumId_key";
+	public static final String DOWNLOAD_MUSEUMID_KEY="download_museumId_key";
 	public static final int MSG_WHAT=1;
 	
 	/*用于下载过程中Message*/
@@ -61,5 +63,11 @@ public class Const {
 	
 	/*用于记录ExpandableListview中下载item的位置的Message类型*/
 	public static final int EXPANDABLE_MSG_CHILD=33;
+	
+	/*用于标记Activity间跳转至主页所传数据*/
+	public static final String INTENT_MUSEUM_ID="intent_museum_id";
+	public static final String INTENT_EXHIBIT_ID="intent_exhibit_id";
+	
+	
 	
 }

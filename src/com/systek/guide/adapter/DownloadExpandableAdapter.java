@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import com.systek.guide.R;
 import com.systek.guide.biz.BizFactory;
 import com.systek.guide.biz.DownloadBiz;
+import com.systek.guide.biz.InterfaceDownloadManageBiz;
 import com.systek.guide.common.config.Const;
-import com.systek.guide.entity.DownloadInfoModel;
-import com.systek.guide.entity.DownloadTargetModels;
+import com.systek.guide.entity.DownloadInfoBean;
+import com.systek.guide.entity.DownloadAreaBeans;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,15 +23,21 @@ import android.widget.TextView;
 public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 
 	Context context;
-	ArrayList<DownloadTargetModels> listGroup;
-	
+	ArrayList<DownloadAreaBeans> listGroup;
+
 	/** 记录下载状态，用于ChildViewHolder的tvStateRecord 表示正在下载状态 */
 	private String DOWNLOADING = "DOWNLOADING";
 	/** 记录下载状态，用于ChildViewHolder的tvStateRecord 表示空、失败状态*/
 	private String NONE = "NONE";  
 	/** 记录下载状态，用于ChildViewHolder的tvStateRecord 表示暂停状态*/
 	private String PAUSE = "PAUSE";
-	
+
+	private InterfaceDownloadManageBiz interfaceDownloadBiz;
+
+	public void setInterfaceDownloadBiz(InterfaceDownloadManageBiz interfaceDownloadBiz) {
+		this.interfaceDownloadBiz = interfaceDownloadBiz;
+	}
+
 	/**用于回调选中item的childviewhodler的接口*/
 	public interface CallbackforViewHolder {
 		/**
@@ -44,26 +51,26 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 	}
 	/** 执行下载回调  */
 	private CallbackforViewHolder downloadListener;
-	
-	
+
+
 	/** 设置执行下载回调  */
 	public void setForViewHodler(CallbackforViewHolder downloadListener) {
 		this.downloadListener = downloadListener;
 	}
-	
-	
-	public DownloadExpandableAdapter(Context context, ArrayList<DownloadTargetModels> list) {
+
+
+	public DownloadExpandableAdapter(Context context, ArrayList<DownloadAreaBeans> list) {
 		super();
 		this.context = context;
 		if (listGroup != null) {
 			this.listGroup = list;
 		} else {
-			this.listGroup = new ArrayList<DownloadTargetModels>();
+			this.listGroup = new ArrayList<DownloadAreaBeans>();
 		}
 	}
-	
+
 	/**更新数据*/
-	public void updateData(ArrayList<DownloadTargetModels> list) {
+	public void updateData(ArrayList<DownloadAreaBeans> list) {
 		if (list != null) {
 			this.listGroup = list;
 			this.notifyDataSetChanged();
@@ -79,7 +86,7 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 	@Override
 	public int getChildrenCount(int groupPosition) {
 
-		DownloadTargetModels models = listGroup.get(groupPosition);
+		DownloadAreaBeans models = listGroup.get(groupPosition);
 		return models.getInfoCount();
 	}
 
@@ -90,12 +97,12 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public DownloadInfoModel getChild(int groupPosition, int childPosition) {
+	public DownloadInfoBean getChild(int groupPosition, int childPosition) {
 
-		DownloadTargetModels models = listGroup.get(groupPosition);
-		
-		ArrayList<DownloadInfoModel> listModel = new ArrayList<DownloadInfoModel>(models.getList());
-		DownloadInfoModel model = listModel.get(childPosition);
+		DownloadAreaBeans models = listGroup.get(groupPosition);
+
+		ArrayList<DownloadInfoBean> listModel = new ArrayList<DownloadInfoBean>(models.getList());
+		DownloadInfoBean model = listModel.get(childPosition);
 		return model;
 	}
 
@@ -133,7 +140,7 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 			groupViewHodler = (GroupViewHolder) convertView.getTag();
 		}
 		/** 外层显示城市名 */
-		DownloadTargetModels model = (DownloadTargetModels) this.getGroup(groupPosition);
+		DownloadAreaBeans model = (DownloadAreaBeans) this.getGroup(groupPosition);
 		String name =model.getCity();
 		groupViewHodler.tvName.setText(name);
 		if (isExpanded) {
@@ -170,7 +177,7 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 		}
 
 		// 得好友数据
-		DownloadInfoModel info = (DownloadInfoModel) this.getChild(groupPosition,childPosition);
+		DownloadInfoBean info = (DownloadInfoBean) this.getChild(groupPosition,childPosition);
 		String name =info.getName();
 		// 博物馆名称
 		childViewHodler.tvName.setText(name);
@@ -185,7 +192,7 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 			public void onClick(View v) {
 
 				/** 获取当前选中的子层博物馆对应的DownloadInfoModel对象*/
-				DownloadInfoModel info=getChild(groupPosition, childPosition);
+				DownloadInfoBean info=getChild(groupPosition, childPosition);
 				final String id = info.getMuseumId();
 
 				// 如果当前是空,显示pause图案，置状态为正在下载，表示按下执行下载操作
@@ -193,16 +200,11 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 					((ImageView) v).setImageResource(R.drawable.play_btn_pause);
 					childViewHodler.tvState.setText("");
 					childViewHodler.tvStateRecord.setText(DOWNLOADING);
-					
-					new Thread(){
-						public void run() {
-							/*创建下载业务对象并开始下载*/
-							DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz(context);
-							String assetsJson= downloadBiz.getAssetsJSON(id);
-							downloadBiz.downloadAssets(id,assetsJson);
-						};
-					}.start();
-					
+
+					/*创建下载业务对象并开始下载*/
+					DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz(context);
+					setInterfaceDownloadBiz(downloadBiz);
+					interfaceDownloadBiz.download(id);
 				}
 				// 如果当前是暂停状态，显示play图案，置状态为正在下载，表示按下执行下载操作
 				else if (childViewHodler.tvStateRecord.getText().equals(PAUSE)) {
@@ -213,7 +215,7 @@ public class DownloadExpandableAdapter extends BaseExpandableListAdapter {
 					/*发送广播请求继续下载*/
 					Intent intent= new Intent();
 					intent.setAction(Const.ACTION_CONTINUE);
-					intent.putExtra(Const.ACTION_CONTINUE,Const.ACTION_CONTINUE);
+					intent.putExtra(Const.ACTION_CONTINUE,id);
 					context.sendBroadcast(intent);
 				}
 				// 如果当前是下载状态，显示pause图案，置状态为暂停，表示按下执行暂停操作

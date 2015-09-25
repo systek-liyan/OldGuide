@@ -21,7 +21,7 @@ import com.systek.guide.common.view.SideBar;
 import com.systek.guide.common.view.SideBar.OnTouchingLetterChangedListener;
 import com.systek.guide.db.Dao;
 import com.systek.guide.db.DbHelper;
-import com.systek.guide.entity.CityModel;
+import com.systek.guide.entity.CityBean;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -46,7 +46,7 @@ public class CityActivity extends BaseActivity {
 	 * 汉字转换成拼音的类
 	 */
 	//private CharacterParser characterParser;
-	private List<CityModel> cities;
+	private List<CityBean> cities;
 
 	/**
 	 * 根据拼音来排列ListView里面的数据类
@@ -114,9 +114,9 @@ public class CityActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-				CityModel cityModel = (CityModel) cityListView.getAdapter().getItem(position);
+				CityBean cityModel = (CityBean) cityListView.getAdapter().getItem(position);
 				// 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-				Toast.makeText(getApplication(), ((CityModel) adapter.getItem(position)).getName(), Toast.LENGTH_SHORT)
+				Toast.makeText(getApplication(), ((CityBean) adapter.getItem(position)).getName(), Toast.LENGTH_SHORT)
 				.show();
 				Intent intent = new Intent(CityActivity.this, MuseumActivity.class);
 				intent.putExtra("city", cityModel.getName());
@@ -130,13 +130,13 @@ public class CityActivity extends BaseActivity {
 	private void initData() {
 		DbHelper helper = new DbHelper(this);
 		Dao dao=new Dao(helper);
-		cities = new ArrayList<CityModel>();
+		cities = new ArrayList<CityBean>();
 		boolean flag = helper.tabIsExist(DbHelper.DBTAblENAME);
 		Cursor cursor =dao.select(DbHelper.DBTAblENAME);
 		/* 判断城市数据库是否存在，存在则查找，不存在联网查询 */
 		if (flag&&cursor.moveToNext()) {
 			while (cursor.moveToNext()) {
-				CityModel city = new CityModel();
+				CityBean city = new CityBean();
 				city.setName(cursor.getString(cursor.getColumnIndex("name")));
 				city.setAlpha(cursor.getString(cursor.getColumnIndex("alpha")));
 				cities.add(city);
@@ -195,9 +195,9 @@ public class CityActivity extends BaseActivity {
 	 *            pinyinComparator); adapter.updateListView(filterDateList); }
 	 */
 
-	public class PinyinComparator implements Comparator<CityModel> {
+	public class PinyinComparator implements Comparator<CityBean> {
 
-		public int compare(CityModel o1, CityModel o2) {
+		public int compare(CityBean o1, CityBean o2) {
 			// 这里主要是用来对ListView里面的数据根据ABCDEFG...来排序
 			if (o2.getAlpha().equals("#")) {
 				return -1;
@@ -213,7 +213,7 @@ public class CityActivity extends BaseActivity {
 	 * 更新ListView中的数据
 	 * @param cities
 	 */
-	public void updateListView(List<CityModel> cities) {
+	public void updateListView(List<CityBean> cities) {
 		this.cities = cities;
 		Collections.sort(cities, pinyinComparator);
 		// 自定义Adapter

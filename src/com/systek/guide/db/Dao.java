@@ -2,8 +2,8 @@ package com.systek.guide.db;
 
 
 import com.systek.guide.common.utils.ExceptionUtil;
-import com.systek.guide.entity.CityModel;
-import com.systek.guide.entity.ModelInterface;
+import com.systek.guide.entity.CityBean;
+import com.systek.guide.entity.BeanInterface;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -19,10 +19,10 @@ public class Dao implements InterfaceDao{
 	}
 
 	@Override
-	public boolean insert(ModelInterface model) {
+	public boolean insert(BeanInterface model) {
 		boolean flag = false;
-		if(model instanceof CityModel){
-			CityModel city=(CityModel)model;
+		if(model instanceof CityBean){
+			CityBean city=(CityBean)model;
 			SQLiteDatabase database = null;
 			long id = -1;
 			try {
