@@ -147,7 +147,7 @@ public class LyricView extends View {
 				max = lrcStrLength.lrc.length();
 			}
 		}
-		SIZEWORD = 320 / max;
+		SIZEWORD = 300 / max;//320
 
 	}
 

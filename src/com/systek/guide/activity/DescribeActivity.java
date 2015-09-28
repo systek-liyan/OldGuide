@@ -2,6 +2,9 @@ package com.systek.guide.activity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -10,6 +13,7 @@ import com.systek.guide.common.base.BaseActivity;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.ImageLoaderUtil;
+import com.systek.guide.common.utils.LogUtil;
 import com.systek.guide.common.view.LyricView;
 import com.systek.guide.entity.ExhibitBean;
 
@@ -18,8 +22,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -34,28 +40,47 @@ public class DescribeActivity extends BaseActivity {
 	private int INTERVAL=8;
 	private ExhibitBean exhibit;
 	private boolean isLyricRun;
-	
+
 
 	/*用于判断文件类型*/
 	private final  int FILE_TYPE_AUDIO=1;
 	private final  int FILE_TYPE_ICON=2;
 	private final  int FILE_TYPE_LYRIC=3;
-	private final  int FILE_TYPE_IMGS=4;
+	private final String MUSEUMID="museumId";
 
 	Handler mHandler = new Handler();
 	private String exhibitId;
 	private ImageView displayIv;
 	private Button ctrlText;
+	private LinearLayout multi_angleLayout;
+	private LinearLayout nearly_exhibitLayout;
+	private String museumId;
+	private String currentIconPath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_describe);
+		String exId=null;
+		if(savedInstanceState!=null){
+			exId=savedInstanceState.getString(MUSEUMID);			
+		}
+		if(exId!=null&&!exId.equals("")){
+			exhibitId=exId;
+		}else{
+			exhibitId=getIntent().getStringExtra(Const.INTENT_EXHIBIT_ID);			
+		}
 		initView();
-		initData();
+		initData(exhibitId);
 		addListener();  
 		seekBar.setMax(mediaPlayer.getDuration());  
 		new Thread(new runable()).start();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
 	}
 	
 	protected void onPause() {
@@ -72,22 +97,20 @@ public class DescribeActivity extends BaseActivity {
 		isLyricRun=false;
 		mediaPlayer.stop();
 	}
-	
-	private void initData() {
-		exhibitId=getIntent().getStringExtra(Const.INTENT_EXHIBIT_ID);
-		exhibit= getExhibit(exhibitId);
+
+	private void initData(String exId) {
+		exhibit= getExhibit(exId);
+		museumId=exhibit.getMuseumId();
 		isLyricRun=true;
 		mediaPlayer=new MediaPlayer();
-		String audioPath=getLocalUrl(FILE_TYPE_AUDIO, exhibitId);
-		String iconPath=getLocalUrl(FILE_TYPE_ICON, exhibitId);
-		String imgsPath=getLocalUrl(FILE_TYPE_IMGS, exhibitId);
-		String lyricPath=getLocalUrl(FILE_TYPE_LYRIC, exhibitId);
-		
+		String currentAudioPath=getLocalUrl(FILE_TYPE_AUDIO, exId);
+		currentIconPath=getLocalUrl(FILE_TYPE_ICON, exId);
+		String currentLyricPath=getLocalUrl(FILE_TYPE_LYRIC, exId);
 		// 判断sdcard上有没有MP3
-		File file = new File(audioPath);
+		File file = new File(currentAudioPath);
 		if (file.exists()) {
 			// sdcard显示
-			mp3Path =audioPath;
+			mp3Path =currentAudioPath;
 			try {
 				resetMusic(mp3Path);
 			} catch (IllegalArgumentException e) {
@@ -98,34 +121,111 @@ public class DescribeActivity extends BaseActivity {
 				ExceptionUtil.handleException(e);
 			}
 		}
-		
+
 		// 判断sdcard上有没有歌词
-		File lyricFile = new File(lyricPath);
+		File lyricFile = new File(currentLyricPath);
 		if (lyricFile.exists()) {
 			// sdcard显示
-			LyricView.read(lyricPath);  
+			LyricView.read(currentLyricPath);  
 			lyricView.SetTextSize();  
 			lyricView.setOffsetY(120); 
 		}
-		File iconFile = new File(iconPath);
+		File iconFile = new File(currentIconPath);
 		if (iconFile.exists()) {
 			//从sdcard显示
-			ImageLoaderUtil.displaySdcardImage(this, iconPath, displayIv);
+			ImageLoaderUtil.displaySdcardImage(this, currentIconPath, displayIv);
 		}
 		
-		File imgs = new File(imgsPath);
-		if (imgs.exists()) {
-			
+		String imgsPath=exhibit.getImgsurl();
+		HashMap<String, Integer> map=new HashMap<String, Integer>();
+		String[] imgsUrl=imgsPath.split(",");
+		if(imgsUrl!=null&&!imgsUrl[0].equals("")&&imgsUrl.length!=0){
+			for(int i=0;i<imgsUrl.length;i++){
+				String imgsName=imgsUrl[i].substring(imgsUrl[i].lastIndexOf("/")+1);
+				String [] nameTime=imgsName.split("\\*");
+				map.put(nameTime[0], Integer.valueOf(nameTime[1]));
+			}
+		}else{
+			ImageView multi_Img=new ImageView(this);
+			multi_angleLayout.addView(multi_Img,new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+			ImageLoaderUtil.displaySdcardImage(this,currentIconPath, multi_Img);
+		}
+		Iterator<Entry<String, Integer>>  iter = map.entrySet().iterator();
+		while(iter.hasNext()){
+			Entry<String, Integer> e = iter.next();
+			String key = (String) e.getKey();
+			final int value = (Integer) e.getValue();
+			ImageView iv=new ImageView(this);
+			iv.setTag(key);
+			multi_angleLayout.addView(iv,new LayoutParams(160, LinearLayout.LayoutParams.MATCH_PARENT));
+			ImageLoaderUtil.displaySdcardImage(this,Const.LOCAL_ASSETS_PATH+museumId+
+					"/"+Const.LOCAL_FILE_TYPE_IMAGE+"/"+key, iv);
+			iv.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String iconName=(String) v.getTag();
+					ImageLoaderUtil.releaseImageViewResouce(displayIv);
+					ImageLoaderUtil.displaySdcardImage(DescribeActivity.this, Const.LOCAL_ASSETS_PATH+museumId+
+							"/"+Const.LOCAL_FILE_TYPE_IMAGE+"/"+iconName, displayIv);
+					mediaPlayer.seekTo(value);
+					lyricView.setOffsetY(120 - lyricView.SelectIndex(value)* (lyricView.getSIZEWORD() + INTERVAL-1));
+				}
+			});
+		}
+		
+		String lExhibitId=exhibit.getLexhibit();
+		String rExhibitId=exhibit.getRexhibit();
+		if(lExhibitId!=null&&!lExhibitId.equals("")){
+			LogUtil.i("lExhibitId:", "------------------------"+"1"+lExhibitId+"1");
+			ImageView left_Img=new ImageView(this);
+			left_Img.setTag(lExhibitId);
+			String l_IconUrl=getLocalUrl(FILE_TYPE_ICON, lExhibitId);
+			String l_IconName=l_IconUrl.substring(l_IconUrl.lastIndexOf("/")+1);
+			nearly_exhibitLayout.addView(left_Img, new LayoutParams(160, LayoutParams.MATCH_PARENT));
+			ImageLoaderUtil.displaySdcardImage(this,Const.LOCAL_ASSETS_PATH+museumId+
+					"/"+Const.LOCAL_FILE_TYPE_IMAGE+"/"+l_IconName, left_Img);
+			left_Img.setOnClickListener(myOnclickListener);
+		}
+		ImageView mid_Img=new ImageView(this);
+		String mid_IconName=currentIconPath.substring(currentIconPath.lastIndexOf("/")+1);
+		nearly_exhibitLayout.addView(mid_Img, new LayoutParams(160, LayoutParams.MATCH_PARENT));
+		ImageLoaderUtil.displaySdcardImage(this,Const.LOCAL_ASSETS_PATH+museumId+
+				"/"+Const.LOCAL_FILE_TYPE_IMAGE+"/"+mid_IconName, mid_Img);		
+		if(rExhibitId!=null&&!rExhibitId.equals("")){
+			ImageView right_Img=new ImageView(this);
+			right_Img.setTag(rExhibitId);
+			String r_IconUrl=getLocalUrl(FILE_TYPE_ICON, rExhibitId);
+			String r_IconName=r_IconUrl.substring(r_IconUrl.lastIndexOf("/")+1);
+			nearly_exhibitLayout.addView(right_Img, new LayoutParams(160, LayoutParams.MATCH_PARENT));
+			ImageLoaderUtil.displaySdcardImage(this,Const.LOCAL_ASSETS_PATH+museumId+
+					"/"+Const.LOCAL_FILE_TYPE_IMAGE+"/"+r_IconName, right_Img);
+			right_Img.setOnClickListener(myOnclickListener);
 		}
 		
 	}
-
+	
+	OnClickListener myOnclickListener=new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			//TODO 
+			String exhibitId=(String) v.getTag();
+			Bundle bundle = new Bundle();
+			bundle.putString(MUSEUMID, exhibitId);
+			mediaPlayer.stop();
+			onCreate(bundle);
+		}
+	};
+	
 	private void initView() {
 		lyricView=(LyricView)findViewById(R.id.mylyricview);
 		ctrlPlay=(Button)findViewById(R.id.ctrlPlay);
 		ctrlText=(Button)findViewById(R.id.ctrlText);
 		seekBar=(SeekBar)findViewById(R.id.MusicseekBar1);
 		displayIv=(ImageView)findViewById(R.id.dispalyImageView);
+		multi_angleLayout=(LinearLayout)findViewById(R.id.ll_currentExhibit);
+		nearly_exhibitLayout=(LinearLayout)findViewById(R.id.ll_nearlyExhibit);
 	}
 
 	private void addListener() {
@@ -141,7 +241,6 @@ public class DescribeActivity extends BaseActivity {
 					mediaPlayer.start();  
 					lyricView.setOffsetY(120 - lyricView.SelectIndex(mediaPlayer.getCurrentPosition())  
 							* (lyricView.getSIZEWORD() + INTERVAL-1));  
-
 				}  
 			}
 		});
@@ -177,9 +276,9 @@ public class DescribeActivity extends BaseActivity {
 				mediaPlayer.start();  
 			}  
 		});
-		
+
 		ctrlText.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if(lyricView.getVisibility()==View.VISIBLE){
@@ -213,11 +312,6 @@ public class DescribeActivity extends BaseActivity {
 			fileName=totalUrl.substring(totalUrl.lastIndexOf("/")+1);
 			loacalUrl = Const.LOCAL_ASSETS_PATH+museumId+"/"+Const.LOCAL_FILE_TYPE_LYRIC+"/"+fileName;
 			break;
-		case FILE_TYPE_IMGS:
-			totalUrl=exh.getImgsurl();
-			fileName=totalUrl.substring(totalUrl.lastIndexOf("/")+1);
-			loacalUrl = Const.LOCAL_ASSETS_PATH+museumId+"/"+Const.LOCAL_FILE_TYPE_IMAGE+"/"+fileName;
-			break;
 		}
 		return loacalUrl;
 	}
@@ -236,7 +330,7 @@ public class DescribeActivity extends BaseActivity {
 		}
 		return exh;
 	}
-	
+
 	protected void resetMusic(String mp3Path) {
 		mediaPlayer.reset();  
 		try {  
@@ -256,7 +350,7 @@ public class DescribeActivity extends BaseActivity {
 
 		@Override  
 		public void run() {
-			
+
 			while (isLyricRun) {  
 				try {  
 					Thread.sleep(100);  
@@ -264,7 +358,7 @@ public class DescribeActivity extends BaseActivity {
 						lyricView.setOffsetY(lyricView.getOffsetY() - lyricView.SpeedLrc());  
 						lyricView.SelectIndex(mediaPlayer.getCurrentPosition());  
 						seekBar.setProgress(mediaPlayer.getCurrentPosition());  
-						mHandler.post(mUpdateResults);  
+						mHandler.post(mUpdateResults);
 					}  
 				} catch (InterruptedException e) {  
 					ExceptionUtil.handleException(e);
