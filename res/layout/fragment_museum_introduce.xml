@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -8,4 +8,16 @@
         android:id="@+id/frag_museum_introduce_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-</LinearLayout>
+    <FrameLayout 
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+        <Button 
+            android:id="@+id/special_Button"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:text="专"
+            android:textSize="13sp"/>
+    </FrameLayout>
+</RelativeLayout>

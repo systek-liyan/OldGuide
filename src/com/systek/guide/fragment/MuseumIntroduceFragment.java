@@ -9,6 +9,7 @@ import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.systek.guide.R;
 import com.systek.guide.activity.DescribeActivity;
+import com.systek.guide.activity.SubjectSelectActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
@@ -22,9 +23,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -45,6 +48,8 @@ public class MuseumIntroduceFragment extends Fragment{
 	private ExhibitAdapter exhibitAdapter;
 
 	private List<ExhibitBean> boutiqueList;
+
+	private Button specialButton;
 
 	public MuseumIntroduceFragment() {
 	}
@@ -110,6 +115,7 @@ public class MuseumIntroduceFragment extends Fragment{
 				boutiqueListView=(ListView)view.findViewById(R.id.frag_museum_introduce_listview);
 				exhibitAdapter=new ExhibitAdapter(activity, boutiqueList);
 				boutiqueListView.setAdapter(exhibitAdapter);
+				specialButton=(Button)view.findViewById(R.id.special_Button);
 				displayAudio();
 				addListener();
 			} catch (Exception e) {
@@ -133,6 +139,18 @@ public class MuseumIntroduceFragment extends Fragment{
 				}
 			}
 		});
+		
+		specialButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//TODO
+				Intent intent =new Intent (getActivity(),SubjectSelectActivity.class);
+				intent.putExtra(Const.INTENT_MUSEUM_ID, museumId);
+				startActivity(intent);
+			}
+		});
+		
 	}
 
 	private MediaPlayer mp;

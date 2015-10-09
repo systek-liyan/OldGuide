@@ -24,7 +24,7 @@
         android:layout_toEndOf="@id/item_museum_iv_icon"
         android:layout_toRightOf="@id/item_museum_iv_icon"
         android:text="name"
-        android:textColor="@color/color_black"
+        android:textColor="@color/mywhite"
         android:textSize="18sp" />
 	<!-- address -->
     <TextView
@@ -37,7 +37,7 @@
         android:text="address"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
-        android:textColor="#222"
+        android:textColor="@color/mywhite"
         android:textSize="13sp" />
 		<!-- isopen -->
 	    <Button
@@ -68,7 +68,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="13:00--18:00"
-	        android:textColor="#222"
+	        android:textColor="@color/color_white"
 	        android:textSize="13sp" />
 	    
 </RelativeLayout>

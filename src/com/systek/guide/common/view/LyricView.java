@@ -78,7 +78,7 @@ public class LyricView extends View {
 				canvas.drawText(temp.lrc, mX, offsetY + (SIZEWORD + INTERVAL) * i, paint);
 			}
 		} else {
-			paint.setTextSize(25);
+			paint.setTextSize(40);
 			canvas.drawText("找不到歌词", mX, 100, paint);
 		}
 		super.onDraw(canvas);
@@ -115,7 +115,7 @@ public class LyricView extends View {
 
 	public void init() {
 		lrc_map = new TreeMap<Integer, LyricBean>();
-		offsetY = 160;
+		offsetY = 220;
 
 		paint = new Paint();
 		paint.setTextAlign(Paint.Align.CENTER);
@@ -147,7 +147,7 @@ public class LyricView extends View {
 				max = lrcStrLength.lrc.length();
 			}
 		}
-		SIZEWORD = 300 / max;//320
+		SIZEWORD = 450 / max;//320
 
 	}
 
@@ -163,10 +163,10 @@ public class LyricView extends View {
 	 */
 	public Float SpeedLrc() {
 		float speed = 0;
-		if (offsetY + (SIZEWORD + INTERVAL) * lrcIndex > 120) {//220
-			speed = ((offsetY + (SIZEWORD + INTERVAL) * lrcIndex - 120) / 20);//220
+		if (offsetY + (SIZEWORD + INTERVAL) * lrcIndex > 220) {//220
+			speed = ((offsetY + (SIZEWORD + INTERVAL) * lrcIndex - 220) / 20);//220
 
-		} else if (offsetY + (SIZEWORD + INTERVAL) * lrcIndex < 50) {//120
+		} else if (offsetY + (SIZEWORD + INTERVAL) * lrcIndex < 80) {//120
 			Log.i("speed", "speed is too fast!!!");
 			speed = 0;
 		}
@@ -304,12 +304,12 @@ public class LyricView extends View {
 				LyricBean item1 = new LyricBean();
 				item1 = oldval;
 				item1.timeline = val.begintime - oldval.begintime;
-				lrc_map.put(new Integer(i), item1);
+				lrc_map.put(Integer.valueOf(i), item1);
 				i++;
 				oldval = val;
 			}
 			if (!iterator.hasNext()) {
-				lrc_map.put(new Integer(i), val);
+				lrc_map.put(Integer.valueOf(i), val);
 			}
 
 		}

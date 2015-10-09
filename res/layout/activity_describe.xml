@@ -42,7 +42,7 @@
     <FrameLayout
         android:id="@+id/lyricBackground"
         android:layout_width="wrap_content"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/title_describe" >
@@ -50,14 +50,14 @@
         <ImageView
             android:id="@+id/dispalyImageView"
             android:layout_width="wrap_content"
-            android:layout_height="160dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
 
     <com.systek.guide.common.view.LyricView
         android:id="@+id/mylyricview"
-        android:layout_width="wrap_content"
-        android:layout_height="160dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/title_describe" />

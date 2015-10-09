@@ -62,7 +62,7 @@ public class CityActivity extends BaseActivity {
 		initViews();
 		addListener();
 		initData();
-		//initLocation();
+		initLocation();
 		Collections.sort(cities, pinyinComparator);
 		// 自定义Adapter
 		adapter = new CityAdapter(this, cities);
@@ -268,9 +268,9 @@ public class CityActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		/*if(mLocationClient.isStarted()){
+		if(mLocationClient.isStarted()){
 			mLocationClient.stop();			
-		}*/
+		}
 	}
 	
 	@Override

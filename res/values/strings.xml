@@ -49,10 +49,10 @@
     <string name="tab_main_two">随行导游</string>
     <string name="tab_main_three">专题导游</string>
     <string name="tab_main_four">地图</string>
-    
+
     <!-- 主页界面 -->
-     <string name="exhibit_boutique">精品</string>
-    
+    <string name="exhibit_boutique">精品</string>
+
     <!-- 搜索 -->
     <string name="title_activity_search">搜索</string>
     <string name="search_hint">请输入搜索内容</string>
@@ -112,5 +112,6 @@
     <string name="sys_update">检查更新</string>
     <string name="sys_introduction">使用向导</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_subject_select">SubjectSelectActivity</string>
 
 </resources>

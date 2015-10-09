@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/check_stone"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="东魏"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/check_copper"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="24dp"
+            android:layout_toLeftOf="@+id/check_stone"
+            android:text="北魏"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/check_ceram"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@+id/check_stone"
+            android:text="西周"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/check_framing"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="商"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/check_jade"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@+id/check_framing"
+            android:text="北齐"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/check_dynasty"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="24dp"
+            android:layout_toLeftOf="@+id/check_framing"
+            android:text="夏朝"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
