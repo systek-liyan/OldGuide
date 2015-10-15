@@ -18,8 +18,8 @@ import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.ImageLoaderUtil;
 import com.systek.guide.common.utils.LogUtil;
-import com.systek.guide.common.view.LyricView;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.widget.LyricView;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
@@ -428,7 +428,13 @@ public class DescribeActivity extends BaseActivity {
 					for (int i = 0; i < imgsTimeList.size(); i++) {
 						int imgTime = imgsTimeList.get(i);
 						int playTime = mediaPlayer.getCurrentPosition();
-						if (playTime > imgTime && playTime < (imgTime + 200)) {
+						int overTime= 0;
+						if(i+1>=imgsTimeList.size()){
+							overTime=imgsTimeList.get(i);
+						}else{
+							overTime=imgsTimeList.get(i+1);
+						}
+						if (playTime > imgTime && playTime < overTime) {
 							Message msg = Message.obtain();
 							msg.what = MSG_WHAT_CHANGE_IMG;
 							msg.obj = multiImgsMap.get(imgsTimeList.get(i));

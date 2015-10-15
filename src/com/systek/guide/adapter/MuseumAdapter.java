@@ -29,7 +29,12 @@ public class MuseumAdapter extends BaseAdapter{
 		this.context = context;
 		inflater=LayoutInflater.from(context);
 	}
-
+	
+	public void updateData( List<MuseumBean> museumList){
+		this.museumList = museumList;
+		notifyDataSetChanged();
+	}
+	
 	@Override
 	public int getCount() {
 		return museumList.size();
@@ -73,7 +78,6 @@ public class MuseumAdapter extends BaseAdapter{
 		String imageUrl = museumModel.getIconUrl();
 		//每个博物馆的资源以ID为目录
 		String museumId = museumModel.getId();
-
 		// 判断sdcard上有没有图片
 		String imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 		File file = new File(Const.LOCAL_ASSETS_PATH+museumId + "/" +Const.LOCAL_FILE_TYPE_IMAGE, imageName);

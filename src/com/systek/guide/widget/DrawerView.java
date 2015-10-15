@@ -1,4 +1,4 @@
-package com.systek.guide.common.view;
+package com.systek.guide.widget;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 import com.systek.guide.R;
 import com.systek.guide.activity.CityActivity;
 import com.systek.guide.activity.MuseumDownloadActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;

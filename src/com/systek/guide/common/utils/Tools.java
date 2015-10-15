@@ -8,6 +8,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.systek.guide.common.config.Const;
+import com.systek.guide.entity.BeaconBean;
+import com.systek.guide.entity.CityBean;
+import com.systek.guide.entity.DownloadAreaBeans;
+import com.systek.guide.entity.DownloadInfoBean;
+import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.entity.LabelBean;
+import com.systek.guide.entity.LyricBean;
+import com.systek.guide.entity.MapBean;
+import com.systek.guide.entity.MuseumBean;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -123,5 +134,7 @@ public class Tools {
 
 			return BitmapFactory.decodeFile(filePath, options);
 		}
+		
+		
 	 
 }

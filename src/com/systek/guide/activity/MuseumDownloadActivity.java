@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import com.systek.guide.R;
 import com.systek.guide.adapter.DownloadFragmentPagerAdapter;
 import com.systek.guide.common.MyApplication;
-import com.systek.guide.common.view.MyToggleButton;
-import com.systek.guide.common.view.MyToggleButton.OnStateChangedListener;
 import com.systek.guide.fragment.DownloadFragment;
 import com.systek.guide.fragment.DownloadManageFragment;
+import com.systek.guide.widget.MyToggleButton;
+import com.systek.guide.widget.MyToggleButton.OnStateChangedListener;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

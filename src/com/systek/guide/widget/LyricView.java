@@ -1,4 +1,4 @@
-package com.systek.guide.common.view;
+package com.systek.guide.widget;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class LyricView extends View {
+	
 	private static TreeMap<Integer, LyricBean> lrc_map;
 	/** 屏幕X轴的中点，此值固定保持歌词在X轴中间显示 */
 	private float mX;
@@ -147,7 +148,7 @@ public class LyricView extends View {
 				max = lrcStrLength.lrc.length();
 			}
 		}
-		SIZEWORD = 450 / max;//320
+		SIZEWORD = 680 / max;//320
 
 	}
 

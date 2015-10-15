@@ -9,17 +9,22 @@ import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MuseumAdapter;
+import com.systek.guide.biz.BeansManageBiz;
+import com.systek.guide.biz.BizFactory;
 import com.systek.guide.common.MyApplication;
 import com.systek.guide.common.base.BaseActivity;
 import com.systek.guide.common.config.Const;
 import com.systek.guide.common.utils.ExceptionUtil;
 import com.systek.guide.common.utils.LogUtil;
-import com.systek.guide.common.view.DrawerView;
-import com.systek.guide.common.view.TopBar;
 import com.systek.guide.entity.MuseumBean;
+import com.systek.guide.widget.DrawerView;
+import com.systek.guide.widget.TopBar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,18 +40,32 @@ public class MuseumActivity extends BaseActivity{
 	private String city;
 	/*侧滑菜单*/
 	SlidingMenu side_drawer;
-	
 	List<MuseumBean> museumList;
 	private MuseumAdapter adapter;
-
+	private TopBar headerLayout;
+	private final int MSG_WHAT_MUSEUMS=1;
+	
+	@SuppressLint("HandlerLeak")
+	Handler handler=new Handler(){
+		public void handleMessage(Message msg) {
+			if(msg.what==MSG_WHAT_MUSEUMS){
+				adapter.updateData(museumList);
+			}
+		};
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_museum);
-		// 初始化数据
-		initData();
+		initialize();
+	}
+
+	private void initialize() {
 		// 初始化视图
 		initViews();
+		// 初始化数据
+		initData();
 		//初始化侧滑菜单
 		initSlidingMenu();
 	}
@@ -56,12 +75,18 @@ public class MuseumActivity extends BaseActivity{
 	}
 
 	private void initData() {
-		city = getIntent().getStringExtra(Const.CITY_MUSEUM);
-		// WHERE id<54 AND (age>20 OR age<30) ORDER BY id LIMIT pageSize OFFSET pageOffset
-		DbUtils db = DbUtils.create(this);
+		city=getIntent().getStringExtra("city");
+		new Thread(){
+			public void run() {
+				BeansManageBiz biz=(BeansManageBiz) BizFactory.getBeansManageBiz(MuseumActivity.this);
+				museumList=biz.getAllBeans(MuseumBean.class,"");
+				while(museumList==null){}
+				handler.sendEmptyMessage(MSG_WHAT_MUSEUMS);
+			};
+		}.start();
+		/*DbUtils db = DbUtils.create(this);
 		try {
-			List<MuseumBean> list = db.findAll(Selector.from(MuseumBean.class)
-			                                   .where("city" ,"like", "%"+city+"%"));
+			List<MuseumBean> list = db.findAll(Selector.from(MuseumBean.class) .where("city" ,"like", "%"+city+"%"));
 			if(list!=null&&list.size()>0){
 				LogUtil.i("TAG", list.get(0).toString());
 				museumList=list;
@@ -75,12 +100,12 @@ public class MuseumActivity extends BaseActivity{
 		if(db!=null){
 				db.close();
 			}
-		}
+		}*/
 	}
 
 	private void initViews() {
 		// 初始化头部
-		TopBar headerLayout = (TopBar) findViewById(R.id.activity_museum_header);
+		headerLayout = (TopBar) findViewById(R.id.activity_museum_header);
 		headerLayout.setSearchingVisible(false);
 		headerLayout.setTitle(getResources().getString(R.string.title_activity_museum));
 		headerLayout.setTitleLeftGravity();
@@ -96,14 +121,16 @@ public class MuseumActivity extends BaseActivity{
 					}
 				});
 		lvMuseum = (ListView) findViewById(R.id.activity_museum_list);
+		if(museumList==null){
+			museumList=new ArrayList<MuseumBean>();
+		}
 		adapter =new MuseumAdapter(museumList, this);
 		lvMuseum.setAdapter(adapter);
 
 		lvMuseum.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 				MuseumBean bean =(MuseumBean) adapter.getItem(position);
 				Intent intent = new Intent(MuseumActivity.this,HomeActivity.class);
 				intent.putExtra(Const.INTENT_MUSEUM_ID, bean.getId());

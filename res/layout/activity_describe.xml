@@ -41,20 +41,24 @@
 
     <FrameLayout
         android:id="@+id/lyricBackground"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" 
         android:layout_below="@+id/title_describe" >
 
         <ImageView
             android:id="@+id/dispalyImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/frag_follow_tab_pictures"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
 
-    <com.systek.guide.common.view.LyricView
+    <com.systek.guide.widget.LyricView
         android:id="@+id/mylyricview"
         android:layout_width="match_parent"
         android:layout_height="200dp"

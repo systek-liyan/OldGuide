@@ -25,7 +25,7 @@ import com.systek.guide.service.DownloadService;
 import android.content.Context;
 import android.content.Intent;
 
-public class DownloadBiz implements InterfaceDownloadManageBiz {
+public class DownloadBiz implements InterfaceDownloadManageBiz,IBiz {
 
 	Context context;
 	/* 控制下载的handler集合 */

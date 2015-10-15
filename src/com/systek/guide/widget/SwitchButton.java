@@ -1,4 +1,4 @@
-package com.systek.guide.common.view;
+package com.systek.guide.widget;
 
 
 import com.systek.guide.R;

@@ -1,34 +1,46 @@
 package com.systek.guide.biz;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.systek.guide.activity.CityActivity;
-import com.systek.guide.common.utils.ExceptionUtil;
-import com.systek.guide.common.utils.MyHttpUtils;
-import com.systek.guide.db.Dao;
-import com.systek.guide.db.DbHelper;
+import com.systek.guide.biz.impl.GetBeansFromLocal;
+import com.systek.guide.biz.impl.GetBeansFromNet;
+import com.systek.guide.common.MyApplication;
+import com.systek.guide.common.config.Const;
+import com.systek.guide.common.utils.DbUtil;
 import com.systek.guide.entity.CityBean;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
+import android.widget.Toast;
 
-public class CityBiz extends AsyncTask<String, Integer, List<CityBean>>implements InterfaceCityBiz {
+public class CityManageBiz implements IBiz{
 
 	Context context;
-
-	CityBiz(Context context) {
+	IGetBeanBiz iGetBeanBiz;
+	
+	CityManageBiz(Context context) {
 		this.context = context;
 	}
+	public void setiGetBeanBiz(IGetBeanBiz iGetBeanBiz) {
+		this.iGetBeanBiz = iGetBeanBiz;
+	}
+	
+	public List<CityBean> getCities(){
+		
+		List<CityBean> list =null;
+		if (MyApplication.currentNetworkType==Const.INTERNET_TYPE_NONE){
+			Toast.makeText(context, "当前无网络", Toast.LENGTH_SHORT).show();
+		}else{
+			if(DbUtil.isTableExist(context, CityBean.class)){
+				setiGetBeanBiz(new GetBeansFromLocal());
+			}else{
+				setiGetBeanBiz(new GetBeansFromNet());
+			}
+		//	list=iGetBeanBiz.getBeans(context, CityBean.class);
+		}
+		return list;
+	}
 
-	@Override
+	/*@Override
 	protected List<CityBean> doInBackground(String... params) {
 		String url = params[0];
 		try {
@@ -37,12 +49,12 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityBean>>implement
 			// 解析json 获取List<City>
 			// json : {result:ok, data:[{},{},{}]}
 			// JSONObject obj=new JSONObject(json);
-			/* TODO 此处应判断状态码，后续 */
+			 TODO 此处应判断状态码，后续 
 			// String result=obj.getString("result");
-			/*
+			
 			 * if("ok".equals(result)){ JSONArray ary=obj.getJSONArray("data");
 			 * List<CityModule> musics=parseJSON(ary); return musics; }
-			 */
+			 
 			JSONArray ary = new JSONArray(json);
 			List<CityBean> cities = parseJSON(ary);
 			return cities;
@@ -92,5 +104,5 @@ public class CityBiz extends AsyncTask<String, Integer, List<CityBean>>implement
 			list.add(c);
 		}
 		return list;
-	}
+	}*/
 }

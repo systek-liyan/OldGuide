@@ -13,9 +13,10 @@ public class Const {
 	/*城市列表URL*/
 	public static final String CITYLISTURL =BASEURL+ "/api/cityService/cityList";
 	/*资源路径*/
+	public static final String  MUSEUMS_URL=BASEURL+ "/api/museumService/museumList";
+	public static final String  MUSEUMS_DOWNLOAD_URL=BASEURL+ "/api/museumService/museumList";
 	public static final String EXHIBIT_URL=BASEURL+ "/api/exhibitService/exhibitList?museumId=";
 	public static final String MUSEUM_MAP_URL=BASEURL+ "/api/museumMapService/museumMapList?museumId=";
-	public static final String  MUSEUMS_URL=BASEURL+ "/api/museumService/museumList?museumId=";
 	public static final String BEACON_URL=BASEURL+ "/api/beaconService/beaconList?museumId=";
 	public static final String LABELS_URL=BASEURL+ "/api/labelsService/labelsList?museumId=";
 	public static final String ASSETS_URL =BASEURL + "/api/assetsService/assetsList?museumId=";

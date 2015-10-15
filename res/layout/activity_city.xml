@@ -61,7 +61,7 @@
         android:textSize="30.0sp"
         android:visibility="gone" />
 
-    <com.systek.guide.common.view.SideBar
+    <com.systek.guide.widget.SideBar
         android:id="@+id/sidrbar"
         android:layout_width="30dp"
         android:layout_height="match_parent"

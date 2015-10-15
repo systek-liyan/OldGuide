@@ -29,7 +29,7 @@
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content" />-->
 
-        <com.systek.guide.common.view.MyToggleButton
+        <com.systek.guide.widget.MyToggleButton
             android:id="@+id/toggle_btn"
             app:onText="@string/download_manage"
             app:offText="@string/download_citylist"

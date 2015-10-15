@@ -197,7 +197,7 @@ public class DownloadService extends IntentService {
 				LogUtil.i("下载JSON-MUSEUM_MAP_URL-获取失败" + error.toString(), msg);
 			}
 		});
-		http.send(HttpRequest.HttpMethod.GET, Const.MUSEUMS_URL + museumId, new RequestCallBack<String>() {
+		http.send(HttpRequest.HttpMethod.GET, Const.MUSEUMS_DOWNLOAD_URL + museumId, new RequestCallBack<String>() {
 
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {

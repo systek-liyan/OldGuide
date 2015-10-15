@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <com.systek.guide.common.view.TopBar
+    <com.systek.guide.widget.TopBar
         android:id="@+id/activity_museum_header"
         android:layout_height="48dp"
         android:layout_width="match_parent"/>
