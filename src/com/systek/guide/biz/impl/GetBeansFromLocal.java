@@ -12,7 +12,7 @@ import android.content.Context;
 public class GetBeansFromLocal implements IGetBeanBiz{
 	
 	@Override
-	public <T> List<T> getBeans(Context context, Class<T> entityType,String condition) {
+	public <T> List<T> getAllBeans(Context context, Class<T> entityType,String condition) {
 		
 		DbUtils db=DbUtils.create(context);
 		List<T> list=null;
@@ -20,8 +20,28 @@ public class GetBeansFromLocal implements IGetBeanBiz{
 				list=db.findAll(entityType);				
 		} catch (DbException e) {
 			ExceptionUtil.handleException(e);
+		}finally{
+			if(db!=null){
+				db.close();
+			}
 		}
 		return list;
+	}
+
+	@Override
+	public <T> T getBeanById(Context context, Class<T> entityType, String id) {
+		DbUtils db=DbUtils.create(context);
+		T t=null;
+		try {
+				t=db.findById(entityType, id);			
+		} catch (DbException e) {
+			ExceptionUtil.handleException(e);
+		}finally{
+			if(db!=null){
+				db.close();
+			}
+		}
+		return t;
 	}
 	
 }

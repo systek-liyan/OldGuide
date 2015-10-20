@@ -31,8 +31,8 @@
 
         <com.systek.guide.widget.MyToggleButton
             android:id="@+id/toggle_btn"
-            app:onText="@string/download_manage"
-            app:offText="@string/download_citylist"
+            app:onText="@string/download_citylist"
+            app:offText="@string/download_manage"
             app:defaultState="On"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"

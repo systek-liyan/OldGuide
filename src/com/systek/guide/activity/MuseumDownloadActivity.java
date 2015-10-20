@@ -38,7 +38,6 @@ public class MuseumDownloadActivity extends FragmentActivity {
 		if (savedInstanceState != null) {
 			tbTitle.setCurrentState(savedInstanceState.getInt(Bundle_key));
 		}
-
 		initView();
 		addListener();
 		initFragment();

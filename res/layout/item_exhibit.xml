@@ -24,7 +24,7 @@
             android:id="@+id/item_exhibit_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
+            android:textSize="@dimen/exhibit_item_content_size"
             android:textAppearance="@style/ExhibitTitleTextAppearance" />
 
         <!-- address -->
@@ -36,7 +36,6 @@
             android:layout_alignTop="@id/item_exhibit_tv_name"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/item_exhibit_tv_name"
-            android:text="address"
             android:textAppearance="@style/ExhibitHintTextAppearance" />
 
         <LinearLayout

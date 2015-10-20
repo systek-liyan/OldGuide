@@ -114,15 +114,19 @@
             android:text="多角度图片"
             android:textSize="12sp" />
 
-        <LinearLayout
-            android:id="@+id/ll_currentExhibit"
+         <HorizontalScrollView
+            android:id="@+id/HorizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@+id/textView2"
-            android:layout_weight="4.5"
-            android:gravity="left"
+            android:layout_weight="4.5">
+        <LinearLayout
+            android:id="@+id/ll_currentExhibit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal" >
         </LinearLayout>
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/nearly_list"
@@ -138,16 +142,18 @@
             android:textColor="@color/mywhite"
             android:textSize="12sp" />
 
-        <LinearLayout
-            android:id="@+id/ll_nearlyExhibit"
+        <HorizontalScrollView
+            android:id="@+id/HorizontalScrollView2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/nearly_list"
-            android:layout_weight="4.5"
+            android:layout_weight="4.5">
+        <LinearLayout
+            android:id="@+id/ll_nearlyExhibit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal" >
-        </LinearLayout>
+        </LinearLayout>		    
+		</HorizontalScrollView>
     </LinearLayout>
 
 </RelativeLayout>

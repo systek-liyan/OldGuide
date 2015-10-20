@@ -15,7 +15,7 @@ public class Const {
 	/*资源路径*/
 	public static final String  MUSEUMS_URL=BASEURL+ "/api/museumService/museumList";
 	public static final String  MUSEUMS_DOWNLOAD_URL=BASEURL+ "/api/museumService/museumList";
-	public static final String EXHIBIT_URL=BASEURL+ "/api/exhibitService/exhibitList?museumId=";
+	public static final String EXHIBIT_LIST_URL=BASEURL+ "/api/exhibitService/exhibitList?museumId=";
 	public static final String MUSEUM_MAP_URL=BASEURL+ "/api/museumMapService/museumMapList?museumId=";
 	public static final String BEACON_URL=BASEURL+ "/api/beaconService/beaconList?museumId=";
 	public static final String LABELS_URL=BASEURL+ "/api/labelsService/labelsList?museumId=";
@@ -69,6 +69,8 @@ public class Const {
 	public static final String INTENT_MUSEUM_ID="intent_museum_id";
 	public static final String INTENT_EXHIBIT_ID="intent_exhibit_id";
 	
-	
-	
+	/*用于APP配置信息存储*/
+	public static final String GUIDE_MODEL_KEY="guide_model_key";
+	public static final String GUIDE_MODEL_AUTO="guide_model_auto";
+	public static final String GUIDE_MODEL_HAND="guide_model_hand";
 }

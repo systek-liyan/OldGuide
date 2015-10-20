@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-	
+    android:layout_height="match_parent"
+    tools:context="com.systek.guide.activity.HomeActivity" >
+    
     <RelativeLayout
-        android:id="@+id/titleRl"
+        android:id="@+id/rl_title"
         android:layout_height="48dp"
         android:layout_width="match_parent"
         android:background="@color/myred"
@@ -40,11 +41,36 @@
             android:text="HOME" />
        
     </RelativeLayout>
-    
-    <android.support.v4.view.ViewPager
-        android:id="@+id/home_viewpager"
+	
+    <ListView
+        android:id="@+id/frag_museum_introduce_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/titleRl" />
-
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_title"/>
+    <FrameLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+        <Button 
+            android:id="@+id/special_Button"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="专"
+            android:textSize="13sp"/>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true">
+		 <Button 
+            android:id="@+id/media_ctrl"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="音"
+            android:textSize="13sp"/>
+        
+    </FrameLayout>
 </RelativeLayout>

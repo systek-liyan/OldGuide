@@ -9,6 +9,7 @@ import com.systek.guide.common.utils.LogUtil;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 
 public class MyApplication extends Application{
 	/*所有的activity都放入此集合中*/
@@ -19,11 +20,19 @@ public class MyApplication extends Application{
 	public static int currentNetworkType=Const.INTERNET_TYPE_NONE;
 	
 	public static MyApplication instance = null;
+	
+	public static int GUIDE_MODEL_AUTO=2;
+	public static int GUIDE_MODEL_HAND=3;
+	
+	public static int guideModel;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		guideModel=GUIDE_MODEL_HAND;
 		instance = this;
+		initConfig();
+		
 		try {
 			// 初始化百度地图
 		SDKInitializer.initialize(this);
@@ -31,6 +40,17 @@ public class MyApplication extends Application{
 			ExceptionUtil.handleException(e);
 		}
 		
+	}
+
+	private void initConfig() {
+		SharedPreferences settings = getSharedPreferences("setting", 0);
+		String mGuideModel=settings.getString(Const.GUIDE_MODEL_KEY, Const.GUIDE_MODEL_HAND);
+		if(mGuideModel.equals(Const.GUIDE_MODEL_HAND)){
+			guideModel=GUIDE_MODEL_HAND;
+		}else if(mGuideModel.equals(Const.GUIDE_MODEL_AUTO)){
+			guideModel=GUIDE_MODEL_AUTO;
+		}
+		LogUtil.i("测试数据模式", "guideModel----"+guideModel);
 	}
 
 	/*退出程序 */

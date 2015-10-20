@@ -4,13 +4,17 @@
     android:layout_height="match_parent"
     android:id="@+id/item_frag_museum_introduce"
     android:orientation="vertical" >
-
-    <ImageView
+	<RelativeLayout 
+	    android:layout_height="200dp"
+	    android:layout_width="match_parent">
+	     <ImageView
         android:id="@+id/frag_museumIcon"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
+
+	</RelativeLayout>
 
     <TextView
         android:id="@+id/frag_museum_introduce"

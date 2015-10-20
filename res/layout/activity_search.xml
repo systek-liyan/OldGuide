@@ -13,8 +13,6 @@
      <ListView
          android:id="@+id/search_listview"
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_below="@+id/search"
-         android:background="#969696" />
+         android:layout_height="match_parent" />
 
 </LinearLayout>

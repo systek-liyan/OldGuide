@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MuseumAdapter;
 import com.systek.guide.biz.BeansManageBiz;
@@ -14,8 +11,6 @@ import com.systek.guide.biz.BizFactory;
 import com.systek.guide.common.MyApplication;
 import com.systek.guide.common.base.BaseActivity;
 import com.systek.guide.common.config.Const;
-import com.systek.guide.common.utils.ExceptionUtil;
-import com.systek.guide.common.utils.LogUtil;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.widget.DrawerView;
 import com.systek.guide.widget.TopBar;
@@ -34,7 +29,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MuseumActivity extends BaseActivity{
-	
+
 	private ListView lvMuseum;
 	/*当前所在城市*/
 	private String city;
@@ -44,7 +39,7 @@ public class MuseumActivity extends BaseActivity{
 	private MuseumAdapter adapter;
 	private TopBar headerLayout;
 	private final int MSG_WHAT_MUSEUMS=1;
-	
+
 	@SuppressLint("HandlerLeak")
 	Handler handler=new Handler(){
 		public void handleMessage(Message msg) {
@@ -53,7 +48,7 @@ public class MuseumActivity extends BaseActivity{
 			}
 		};
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,7 +88,7 @@ public class MuseumActivity extends BaseActivity{
 			}else{
 				museumList=new ArrayList<MuseumBean>();
 			}
-			
+
 		} catch (DbException e) {
 			ExceptionUtil.handleException(e);
 		}finally{
@@ -137,34 +132,17 @@ public class MuseumActivity extends BaseActivity{
 				startActivity(intent);
 			}
 		});
-		
+
 	}
-	
-	
+
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		DbUtils db = DbUtils.create(this);
-		try {
-			List<MuseumBean> list = db.findAll(Selector.from(MuseumBean.class)
-			                                   .where("city" ,"like", "%"+city+"%"));
-			if(list!=null&&list.size()>0){
-				LogUtil.i("TAG", list.get(0).toString());
-				museumList=list;
-			}else{
-				museumList=new ArrayList<MuseumBean>();
-			}
-		} catch (DbException e) {
-			ExceptionUtil.handleException(e);
-		}finally{
-		if(db!=null){
-				db.close();
-			}
-		adapter.notifyDataSetChanged();
-		}
+		adapter.updateData(museumList);
 	}
-	
-	
+
+
 	/*用于计算点击返回键时间*/
 	private long mExitTime=0;
 	@Override
@@ -190,5 +168,5 @@ public class MuseumActivity extends BaseActivity{
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 }

@@ -20,4 +20,18 @@ public class DbUtil {
 		}
 		return isTableExist;
 	}
+		public static <T> T findById(Context context,Class<T> entityType,String id){
+			DbUtils db=DbUtils.create(context);
+			T t=null;
+			try {
+				  t =db.findById(entityType, id);
+			} catch (DbException e) {
+				ExceptionUtil.handleException(e);
+			}finally{
+				if(db!=null){
+					db.close();
+				}
+			}
+			return t;
+		}
 }

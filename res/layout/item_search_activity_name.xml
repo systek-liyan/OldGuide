@@ -16,7 +16,7 @@
         android:layout_below="@id/item_search_name"
         android:singleLine="true"
         android:layout_marginLeft="15dp"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:textColor="#212121" />
 
 </RelativeLayout>
