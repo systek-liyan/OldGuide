@@ -33,7 +33,7 @@
                 android:background="@drawable/btn_locatecity_bg"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="正在定位..."
+                android:text="@string/city_activity_button_string"
                 android:textSize="20sp" />
         </RelativeLayout>
 
@@ -61,7 +61,7 @@
         android:textSize="30.0sp"
         android:visibility="gone" />
 
-    <com.systek.guide.common.view.SideBar
+    <com.systek.guide.widget.SideBar
         android:id="@+id/sidrbar"
         android:layout_width="30dp"
         android:layout_height="match_parent"

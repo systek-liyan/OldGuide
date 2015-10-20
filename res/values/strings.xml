@@ -5,45 +5,83 @@
     <string name="hello_world">hello_world!</string>
     <string name="string_welcome">欢迎界面!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
-     <string name="title_activity_city">CityActivity</string>
+    <string name="title_activity_welcome">MyMuseum</string>
+    <string name="title_activity_city">城市选择</string>
+    <string name="title_activity_Describe">随行导游</string>
+    <string name="city_activity_button_string">正在定位&#8230;</string>
+
+    <!-- 侧滑菜单 -->
+    <string name="sliding_left_city_choose">城市选择</string>
+    <string name="sliding_left_center_download">下载中心</string>
+    <string name="sliding_left_setting">设置</string>
+    <string name="sliding_left_more">更多</string>
+    <string name="sliding_left_back">返回</string>
+    <string name="left_drawer_no_login_tip">登录后，将推荐给你更多感兴趣的文章</string>
+    <string name="left_drawer_item_search">搜索</string>
+    <string name="left_drawer_city_choose">城市</string>
+    <string name="left_drawer_item_message">消息</string>
+    <string name="left_drawer_item_offline">下载</string>
+    <string name="left_drawer_item_offline_cancel">取消离线</string>
+    <string name="left_drawer_item_more">更多</string>
+    <string name="left_drawer_item_setting">设置</string>
+    <string name="left_drawer_item_feedback">反馈</string>
+    <string name="left_drawer_item_appstore">精彩应用</string>
+    <string name="drawer_right_logout_hint_text">"登录后 可关注好友评论和收藏"</string>
+    <string name="drawer_right_tip_no_login">未登录</string>
+    <string name="action_close_auto_mode">自动模式</string>
+    <string name="action_open_auto_mode">手动模式</string>
+
+    <!-- 下载界面 -->
+    <string name="download_load">下载</string>
+    <string name="download_manage">管理</string>
+    <string name="download_citylist">城市</string>
+    <string name="downloading">正在下载</string>
+    <string name="download_pause">已暂停</string>
+    <string name="download_no_items">暂无下载，点击"城市列表"进行下载吧 ！</string>
+    <string name="download_items">下载或暂停</string>
+    <string name="downloadlist_error">"对不起，暂无新的可下载博物馆列表!"</string>
+    <string name="downloading_text">正在下载更新</string>
+    <string name="downloaded_text">下载完成</string>
+    <string name="title_activity_museum_download">MuseumDownloadActivity</string>
     <string name="city_location">定位城市：</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="tab_main_one">主页</string>
     <string name="tab_main_two">随行导游</string>
     <string name="tab_main_three">专题导游</string>
     <string name="tab_main_four">地图</string>
-	<!-- 搜索 -->
-	<string name="title_activity_search">搜索</string>
-	<string name="search_hint">请输入搜索内容</string>
-	<string name="search_delect_descriction">清除</string>
-	<string name="search_back">返回</string>
-	
+
+    <!-- 主页界面 -->
+    <string name="exhibit_boutique">精品</string>
+
+    <!-- 搜索 -->
+    <string name="title_activity_search">搜索</string>
+    <string name="search_hint">请输入搜索内容</string>
+    <string name="search_delect_descriction">清除</string>
+    <string name="search_back">返回</string>
     <string name="frag_follow_tab_pictures">图片讲解</string>
     <string name="frag_follow_tab_exhibitions">展品列表</string>
     <string name="title_activity_museum">选择博物馆</string>
-    
+
     <!-- 歌词view tips -->
     <string name="lyric_not_found">没有找到相应的歌词文件</string>
-    
+
     <!-- 用于上拉加载更多ListView -->
     <string name="load_full">已加载全部</string>
     <string name="no_data">暂无数据</string>
     <string name="more">加载中</string>
-    
     <string name="play_pause">播放或暂停</string>
     <!-- 多角度展示title -->
     <string name="gallery_title">多角度展示</string>
     <!-- 展品列表 -->
     <string name="exhibit_list_title">展品列表</string>
-    
+
     <!-- 自动导游和手动导游 -->
     <string name="auto_guide">自动导游</string>
     <string name="manally_guide">手动导游</string>
     <string name="map_menu_loca">loca</string>
     <string name="map_menu_friend">frie</string>
     <string name="map_menu_toggle_list">toggle</string>
-    
+
     <!-- 对话框 -->
     <string name="dialog_setting">设置</string>
     <string name="dialog_cancel">取消</string>
@@ -51,46 +89,30 @@
     <string name="dialog_open">开启</string>
     <string name="dialog_success">操作成功</string>
     <string name="dialog_error">出错辣~</string>
-    
     <string name="dialog_loading">正在加载,请稍后</string>
     <string name="dialog_searching">正在搜索附近展品,请稍后</string>
-    
     <string name="dialog_bluetooth">设置蓝牙</string>
-   	<string name="dialog_not_support_ble">您的设备不支持蓝牙4.0,将无法使用自动导航模式,请手动选择展品</string>
-   	<string name="dialog_open_bluetooth">是否开启蓝牙？\n\n注：不开启蓝牙无法进入自动导航模式\n</string>
-    
-   	<string name="dialog_wifi">设置Wi-Fi</string>
-   	<string name="dialog_location_wifi">检测到您当前未开启Wi-Fi\n\n是否需要开启Wi-Fi以提高定位精准度\n</string>
-   	<string name="dialog_download_wifi">当前不是WiFi网络，下载博物馆离线数据包将产生流量费用（具体资费情况咨询当地运营商），确认是否继续下载</string>	
-   
-   	<string name="dialog_gps">设置GPS</string>
-   	<string name="dialog_open_gps">\n如需提高定位精准度，在位置设置中打开GPS\n</string>
-   	
-   	
-   	<!-- 设置 -->
-   	<string name="setting_locate">定位设置</string>
-   	<string name="pref_gps">自动检测GPS</string>
-   	<string name="pref_auto_enter">自动进入定位到的博物馆</string>
-   	
-   	<string name="setting_network">网络设置</string>
-   	<string name="network_picture">自动接收图片</string>
-   	<string name="network_wifi">WiFi下自动更新</string>
-   	
-   	<string name="setting_system">系统设置</string>
-   	<string name="sys_about">关于</string>
-   	<string name="sys_update">检查更新</string>
-   	<string name="sys_introduction">使用向导</string>
-   	
-   	<!-- 下载管理   -->
-   	<string name="download_citylist">城市列表</string>
-   	<string name="download_manage">下载管理</string>
-   	<string name="downloading">正在下载</string>
-   	<string name="download_pause">已暂停</string>
-   	<string name="download_no_items">暂无下载，点击"城市列表"进行下载吧 ！</string>
-    <string name="download_items">下载或暂停</string>
-    <string name="downloadlist_error">"对不起，暂无新的可下载博物馆列表!"</string>
-    <string name="downloading_text">正在下载更新</string>
-    <string name="downloaded_text">下载完成</string>
-    
+    <string name="dialog_not_support_ble">您的设备不支持蓝牙4.0,将无法使用自动导航模式,请手动选择展品</string>
+    <string name="dialog_open_bluetooth">是否开启蓝牙？\n\n注：不开启蓝牙无法进入自动导航模式\n</string>
+    <string name="dialog_wifi">设置Wi-Fi</string>
+    <string name="dialog_location_wifi">检测到您当前未开启Wi-Fi\n\n是否需要开启Wi-Fi以提高定位精准度\n</string>
+    <string name="dialog_download_wifi">当前不是WiFi网络，下载博物馆离线数据包将产生流量费用（具体资费情况咨询当地运营商），确认是否继续下载</string>
+    <string name="dialog_gps">设置GPS</string>
+    <string name="dialog_open_gps">\n如需提高定位精准度，在位置设置中打开GPS\n</string>
+
+    <!-- 设置 -->
+    <string name="setting_locate">定位设置</string>
+    <string name="pref_gps">自动检测GPS</string>
+    <string name="pref_auto_enter">自动进入定位到的博物馆</string>
+    <string name="setting_network">网络设置</string>
+    <string name="network_picture">自动接收图片</string>
+    <string name="network_wifi">WiFi下自动更新</string>
+    <string name="setting_system">系统设置</string>
+    <string name="sys_about">关于</string>
+    <string name="sys_update">检查更新</string>
+    <string name="sys_introduction">使用向导</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_subject_select">SubjectSelectActivity</string>
+    <string name="title_activity_home_activity2">HomeActivity2</string>
 
 </resources>

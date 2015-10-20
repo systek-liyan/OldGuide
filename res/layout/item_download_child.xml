@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/download_list_item_height"
+    android:padding="10dp">
+
+   <!-- 博物馆 -->
+   <TextView 
+       android:id="@+id/tv_download_child_name"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="@dimen/download_text_size"
+       android:layout_centerVertical="true"
+       android:layout_marginLeft="5dp"/>
+   <!-- 状态  -->
+   <TextView 
+       android:id="@+id/tv_download_child_state"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_toRightOf="@+id/tv_download_child_name"
+       android:layout_centerVertical="true"
+       android:textSize="12sp"
+       android:layout_marginLeft="5dp"/>
+   <!-- 仅用于记录状态，并不显示  -->
+   <TextView 
+       android:id="@+id/tv_download_child_state_record"
+       android:visibility="gone"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_toRightOf="@+id/tv_download_child_name"
+       android:layout_centerVertical="true"
+       android:textSize="12sp"
+       android:layout_marginLeft="5dp"
+   />
+   <!-- 开始(下载) -->
+   <ImageView 
+       android:id="@+id/iv_download_child_icon"
+       android:layout_width="@dimen/download_icon_size"
+       android:layout_height="@dimen/download_icon_size"
+       android:layout_alignParentRight="true"
+       android:layout_marginRight="5dp"
+       android:layout_centerVertical="true"
+       android:contentDescription="@string/download_items"
+       android:src="@drawable/play_btn_play"/>
+   <!-- 资源文件大小 -->
+   <TextView android:id="@+id/tv_download_child_size"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_centerVertical="true"
+       android:layout_toLeftOf="@id/iv_download_child_icon"
+       android:layout_marginRight="8dp"
+       android:textSize="@dimen/download_text_size"/>
+   <!-- 进度条 -->
+   <ProgressBar 
+        android:id="@+id/pb_downloading"
+        android:visibility="gone"
+        android:layout_below="@id/tv_download_child_size"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:max="100"
+        android:layout_width="match_parent"                                                                                                         
+        android:layout_height="3dp"
+        style="?android:attr/progressBarStyleHorizontal" />
+   
+</RelativeLayout>

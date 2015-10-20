@@ -1,0 +1,159 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.systek.guide.activity.DescribeActivity" >
+
+    <RelativeLayout
+        android:id="@+id/title_describe"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/myred" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/title_activity_Describe"
+            android:textColor="@color/mywhite"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_launcher" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/lyricBackground"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" 
+        android:layout_below="@+id/title_describe" >
+
+        <ImageView
+            android:id="@+id/dispalyImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/frag_follow_tab_pictures"
+            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
+
+    <com.systek.guide.widget.LyricView
+        android:id="@+id/mylyricview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/title_describe" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lyricBackground"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/ctrlLouyout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/lyricBackground"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <SeekBar
+                android:id="@+id/MusicseekBar1"
+                android:layout_width="265dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="6dp" />
+
+            <Button
+                android:id="@+id/ctrlPlay"
+                android:layout_width="25dp"
+                android:layout_height="21dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/play_btn_play" />
+
+            <Button
+                android:id="@+id/ctrlText"
+                android:layout_width="25dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/search_clear_pressed" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/ctrlLouyout"
+            android:layout_weight="1"
+            android:background="@color/myred"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="多角度图片"
+            android:textSize="12sp" />
+
+         <HorizontalScrollView
+            android:id="@+id/HorizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5">
+        <LinearLayout
+            android:id="@+id/ll_currentExhibit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" >
+        </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/nearly_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/ll_currentExhibit"
+            android:layout_weight="1"
+            android:background="@color/myred"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="附近列表"
+            android:textColor="@color/mywhite"
+            android:textSize="12sp" />
+
+        <HorizontalScrollView
+            android:id="@+id/HorizontalScrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5">
+        <LinearLayout
+            android:id="@+id/ll_nearlyExhibit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+        </LinearLayout>		    
+		</HorizontalScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

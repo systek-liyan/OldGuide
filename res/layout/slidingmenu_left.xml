@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_background"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/sliding_tv1"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon"
+        android:drawablePadding="25dp"
+        android:drawableStart="@drawable/icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="@string/sliding_left_city_choose"
+        android:textColor="@color/color_white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sliding_tv2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon"
+        android:drawablePadding="25dp"
+        android:drawableStart="@drawable/icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="@string/sliding_left_center_download"
+        android:textColor="@color/color_white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sliding_tv3"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon"
+        android:drawablePadding="25dp"
+        android:drawableStart="@drawable/icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="@string/sliding_left_setting"
+        android:textColor="@color/color_white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sliding_tv4"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon"
+        android:drawablePadding="25dp"
+        android:drawableStart="@drawable/icon"
+        android:gravity="center_vertical"
+        android:onClick="doClick"
+        android:paddingLeft="15dp"
+        android:text="@string/sliding_left_more"
+        android:textColor="@color/color_white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sliding_tv5"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon"
+        android:drawablePadding="25dp"
+        android:drawableStart="@drawable/icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="@string/sliding_left_back"
+        android:textColor="@color/color_white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darkgray" />
+
+    <!-- TODO 改图片 -->
+
+    <ToggleButton
+        android:id="@+id/frag_menu_tb_autoguide"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/toggle_btn_selector"
+        android:checked="true"
+        android:textOff=""
+        android:textOn="" />
+
+</LinearLayout>

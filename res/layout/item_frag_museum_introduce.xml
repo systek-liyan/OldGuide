@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/item_frag_museum_introduce"
+    android:orientation="vertical" >
+	<RelativeLayout 
+	    android:layout_height="200dp"
+	    android:layout_width="match_parent">
+	     <ImageView
+        android:id="@+id/frag_museumIcon"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_launcher" />
+
+	</RelativeLayout>
+
+    <TextView
+        android:id="@+id/frag_museum_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/frag_boutique"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/myred"
+        android:text="@string/exhibit_boutique" />
+
+
+</LinearLayout>

@@ -5,15 +5,29 @@
     <color name="mywhite">#ffff</color>
     <color name="lightgray">#eeee</color>
     <color name="darkgray">#cccc</color>
+    <!-- 侧滑菜单中 -->
+     <color name="left_drawer_item_bg_normal">#ff393939</color>
+     <color name="left_drawer_user_name">#ffd4d4d4</color>
+      <color name="left_drawer_no_login_tip_text">#ffb8b8b8</color>
+    <color name="left_drawer_item_text_normal">#ffd4d4d4</color>
+    <color name="left_drawer_item_text_pressed">#ff4e4e4e</color>
+    <color name="left_drawer_item_text_tip">#fffe3232</color>
+    <color name="left_drawer_item_bg_pressed">#ff292929</color>
+    <color name="left_drawer_item_line">#ff272727</color>
+    <color name="left_drawer_offline_line">#ff4bbff6</color>
+    <color name="left_drawer_offline_hint">#ff6699cc</color>
+    <color name="left_drawer_night_mode_text">#ffb8b8b8</color>
     
 	<color name="exhibit_title_text_color">#445500</color>
     <color name="color_black">#000000</color>
 	<color name="color_white">#ffffff</color>
+	<color name="white">#ffffffff</color>
 	<color name="white_press">#d7d7d7</color>
     <color name="hint_font_color">#444444</color>
     
     <color name="footer_tabs_bg">#0077ba</color>
     <color name="color_list_bg">#bebebe</color>
+    <color name="whatever">#3D89DF</color>
     
     <color name="font_blue">#3ca0ec</color>
     <color name="indicator">#dd191d</color>

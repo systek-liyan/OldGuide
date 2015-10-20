@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+
+    <ImageView
+        android:id="@+id/item_exhibit_iv_icon"
+        android:layout_width="@dimen/list_item_exhibit_icon_size"
+        android:layout_height="@dimen/list_item_exhibit_icon_size"
+        android:layout_margin="5dp"
+        android:contentDescription="icon" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <!-- name -->
+
+        <TextView
+            android:id="@+id/item_exhibit_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/exhibit_item_content_size"
+            android:textAppearance="@style/ExhibitTitleTextAppearance" />
+
+        <!-- address -->
+
+        <TextView
+            android:id="@+id/item_exhibit_tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/item_exhibit_tv_name"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/item_exhibit_tv_name"
+            android:textAppearance="@style/ExhibitHintTextAppearance" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/item_exhibit_tv_name"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
+
+            <!-- dynasty -->
+
+            <TextView
+                android:id="@+id/item_exhibit_tv_dynasty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/ExhibitContentTextAppearance" />
+
+            <!-- introduction -->
+
+            <TextView
+                android:id="@+id/item_exhibit_tv_introduction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textAppearance="@style/ExhibitContentTextAppearance" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="arrow"
+            android:src="@drawable/list_item_arrow" />
+    </RelativeLayout>
+
+</LinearLayout>
